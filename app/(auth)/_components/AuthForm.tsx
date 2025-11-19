@@ -35,6 +35,7 @@ export function AuthForm<T extends Record<string, unknown>>({
 }: AuthFormProps<T>) {
   const form = useForm<T>({
     resolver: yupResolver(schema),
+    mode: "onChange", // ✅ validate while typing
     defaultValues,
   });
 

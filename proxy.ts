@@ -1,32 +1,20 @@
-import { type NextRequest, NextResponse } from 'next/server';
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
-import { updateSession } from '@/lib/utils';
+import { type NextRequest } from 'next/server'
+import { updateSession } from '@/lib/supabase/middleware'
 
 export async function proxy(request: NextRequest) {
-  // First update the session (refresh tokens, etc.)
-  const response = await updateSession(request);
-
-  // Create a Supabase client bound to the request/response
-  const supabase = createMiddlewareClient({ req: request, res: response });
-
-  // Get the current user session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  // If no session and user is trying to access a protected route, redirect to login
-  const protectedPaths = ['/',];
-  const isProtected = protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path));
-
-  if (isProtected && !session) {
-    const loginUrl = new URL('/sign-in', request.url);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  // Otherwise continue
-  return response;
+  // update user's auth session
+  return await updateSession(request)
 }
 
 export const config = {
-  matcher: ['/'],
-};
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * Feel free to modify this pattern to include more paths.
+     */
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
+}
