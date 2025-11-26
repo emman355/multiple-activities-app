@@ -7,6 +7,8 @@ import * as yup from 'yup'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Typography from '@/components/ui/typography'
+import { addTodo } from '../actions/todos/addTodo'
+import { useTransition } from 'react'
 
 const schema = yup.object({
 	title: yup
@@ -21,7 +23,7 @@ export interface TodoFormValues {
 }
 
 interface TodoFormProps {
-	onSubmit: (values: TodoFormValues) => void
+	onSubmit?: (values: TodoFormValues) => void
 	initialValue?: string   // ✅ optional default value for editing
 	submitLabel?: string    // ✅ customize button label ("Add Todo" / "Save Changes")
 	setIsEditing?: (edit: boolean) => void
@@ -33,6 +35,9 @@ export default function TodoForm({
 	submitLabel = 'Add Todo',
 	setIsEditing,
 }: TodoFormProps) {
+
+	const [isPending, startTransition] = useTransition()
+
 	const {
 		register,
 		handleSubmit,
@@ -40,13 +45,18 @@ export default function TodoForm({
 		formState: { errors },
 	} = useForm<TodoFormValues>({
 		resolver: yupResolver(schema),
-		mode: "onSubmit", // ✅ validate while typing
+		mode: "onChange", // ✅ validate while typing
 		defaultValues: { title: initialValue },
 	})
 
-	const handleFormSubmit = (data: TodoFormValues) => {
-		onSubmit(data)
-		reset({ title: '' }) // clear after submit (for add form)
+	const handleFormSubmit = async (data: TodoFormValues) => {
+		if (onSubmit) {
+			onSubmit(data)
+		} else {
+			startTransition(async () => await addTodo(data))
+		}
+		reset({ title: '' })
+
 	}
 
 	return (
@@ -67,7 +77,14 @@ export default function TodoForm({
 					{...register('title')}
 				/>
 				<Button type="submit" variant="outline" size="lg">
-					{submitLabel}
+					{isPending ? (
+						<span className="flex items-center gap-2">
+							<span className="animate-spin h-4 w-4 border-2 border-t-transparent rounded-full" />
+							Adding...
+						</span>
+					) : (
+						submitLabel
+					)}
 				</Button>
 				{
 					setIsEditing && (

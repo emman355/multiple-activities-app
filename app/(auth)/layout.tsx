@@ -42,7 +42,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 				<CardContent className="flex flex-col gap-6">
 					<Button
 						type="button"
-						variant="outline"
+						variant="default"
 						className="items-center gap-2"
 						onClick={() => handleOAuthLogin('google')}
 					>
