@@ -1,31 +1,64 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import Typography from '@/components/ui/typography'
 import TodoForm, { TodoFormValues } from './TodoForm'
+import TodoItemContent from './TodoItemContent'
+import { deleteTodo } from '../actions/todos/deleteTodo'
+import { updateTodo } from '../actions/todos/updateTodo'
+import { toggleTodo } from '../actions/todos/toggleTodo'
 
 export interface Todo {
   id: number
-  user_id: number
+  userId: number
   title: string
   done: boolean
-  created_at: string
+  createdAt: string
+  updatedAt: string
 }
 
 interface TodoItemProps {
   todo: Todo
-  onToggle: (id: number, done: boolean) => void
-  onDelete: (id: number) => void
-  onUpdate: (id: number, newTitle: string) => void
 }
 
-export default function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) {
+export default function TodoItem({ todo }: TodoItemProps) {
   const [isEditing, setIsEditing] = useState(false)
+  const [localDone, setLocalDone] = useState(todo.done)
+  const [localTitle, setLocalTitle] = useState(todo.title)
+
+  // separate transitions
+  const [isSaving, startSaving] = useTransition()
+  const [isDeleting, startDeleting] = useTransition()
+  const [isToggling, startToggling] = useTransition()
+
   const handleSave = (data: TodoFormValues) => {
-    onUpdate(todo.id, data.title)
-    setIsEditing(false)
+    // optimistic update
+    setLocalTitle(data.title)
+    startSaving(async () => {
+      await updateTodo(todo.id, data.title)
+    })
+    setIsEditing(isSaving)
+  }
+
+  const handleDelete = (id: number) => {
+    startDeleting(async () => {
+      await deleteTodo(id)
+    })
+  }
+
+  const handleToggle = (checked: boolean) => {
+    // optimistic update
+    setLocalDone(checked)
+
+    startToggling(async () => {
+      try {
+        await toggleTodo({ id: todo.id, done: checked })
+      } catch {
+        // rollback if backend fails
+        setLocalDone(todo.done)
+      }
+    })
   }
 
   return (
@@ -33,8 +66,9 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoIte
       <div className='flex flex-3 gap-5 items-center w-full'>
         <Checkbox
           id={`todo-${todo.id}`}
-          checked={todo.done}
-          onCheckedChange={(checked) => onToggle(todo.id, !!checked)}
+          checked={localDone}
+          disabled={isToggling}
+          onCheckedChange={(checked) => handleToggle(!!checked)}
           className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
         />
         <div className="flex w-full">
@@ -42,18 +76,11 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoIte
             <TodoForm
               setIsEditing={setIsEditing}
               onSubmit={handleSave}
-              initialValue={todo.title}
-              submitLabel="Save"
+              initialValue={localTitle}
+              submitLabel={isSaving ? "saving..." : "save"}
             />
           ) : (
-            <div className='flex flex-col'>
-              <Typography variant="body1" className="leading-none font-medium">
-                {todo.title}
-              </Typography>
-              <Typography variant="small" className="text-muted-foreground">
-                Created at: {new Date(todo.created_at).toLocaleString()}
-              </Typography>
-            </div>
+            <TodoItemContent title={localTitle} updatedAt={todo.updatedAt} />
           )}
         </div>
       </div>
@@ -63,8 +90,16 @@ export default function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoIte
             <Button size="lg" variant="outline" onClick={() => setIsEditing(true)}>
               Edit
             </Button>
-            <Button size="lg" variant="destructive" onClick={() => onDelete(todo.id)}>
-              Delete
+            <Button size="lg" variant="destructive" onClick={() => handleDelete(todo.id)}
+              disabled={isDeleting}>
+              {isDeleting ?
+                (
+                  <span className="flex items-center gap-2">
+                    <span className="animate-spin h-4 w-4 border-2 border-t-transparent rounded-full" />
+                    Deleting...
+                  </span>
+                )
+                : "Delete"}
             </Button>
           </div>
         )
