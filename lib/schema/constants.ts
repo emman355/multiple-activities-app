@@ -13,3 +13,5 @@ export const numberErrorMessage =
     "Password must contain at least one number.";
 export const specialCharacterErrorMessage =
     "Password must contain at least one special character (!@#$%^&*).";
+
+export const ACCEPTED_REGEX = /^[a-zA-Z0-9\s.,!?'"-]+$/
