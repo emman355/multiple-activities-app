@@ -1,8 +1,5 @@
-// lib/schema/login.ts
 import * as yup from "yup";
 import { EMAIL_REGEX, lowercaseErrorMessage, maxLengthErrorMessage, minLengthErrorMessage, numberErrorMessage, specialCharacterErrorMessage, uppercaseErrorMessage } from "./constants";
-
-
 
 export const loginSchema = yup.object().shape({
   email: yup

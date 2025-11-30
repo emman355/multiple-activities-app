@@ -1,105 +1,96 @@
-import React from 'react';
-import clsx from 'clsx';
+import React from "react";
+import clsx from "clsx";
 
 // --- Type Definitions ---
-
-/**
- * Defines the available text variants (styles) for the component.
- * This ensures type safety and autocompletion when using the component.
- */
 type Variant =
-  | 'h1'
-  | 'h2'
-  | 'h3'
-  | 'subtitle'
-  | 'body1'
-  | 'small'
-  ;
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "subtitle"
+  | "body1"
+  | "body2"
+  | "caption"
+  | "overline"
+  | "small";
 
-/**
- * Defines the allowed HTML elements for each variant.
- */
+// --- Semantic Element Mapping ---
 const ElementMap: Record<Variant, React.ElementType> = {
-  h1: 'h1',
-  h2: 'h2',
-  h3: 'h3',
-  subtitle: 'p', // Render subtitle as a paragraph tag
-  body1: 'p',     // Render body1 text as a paragraph tag
-  small: 'span',
+  h1: "h1",
+  h2: "h2",
+  h3: "h3",
+  h4: "h4",
+  subtitle: "h6",
+  body1: "p",
+  body2: "p",
+  caption: "span",
+  overline: "span",
+  small: "span",
 };
 
-/**
- * Defines the properties for the Typography component.
- */
 interface TypographyProps {
-  /** The text content to display. */
   children: React.ReactNode;
-  /** The predefined style variant to use (e.g., 'h1', 'body1'). */
   variant: Variant;
-  /** Optional custom Tailwind classes to override or extend the variant styles. */
   className?: string;
-  /** Optional text color utility (e.g., 'text-red-500'). */
   color?: string;
 }
 
 // --- Typography Component ---
-
-/**
- * A highly reusable component for consistent text styling using Tailwind CSS.
- */
 const Typography: React.FC<TypographyProps> = ({
   children,
   variant,
   className,
-  color = 'text-gray-850',
+  color = "text-gray-200",
   ...props
 }) => {
-
-  // 1. Determine the Tailwind classes based on the chosen variant
   let variantClasses: string;
 
   switch (variant) {
-    case 'h1':
-      // Extrabold, large text, large bottom margin
-      variantClasses = 'text-4xl sm:text-5xl font-extrabold tracking-tight';
+    case "h1":
+      variantClasses =
+        "text-5xl sm:text-6xl font-extrabold tracking-tight leading-tight";
       break;
-    case 'h2':
-      // Bold text, standard size
-      variantClasses = 'text-3xl font-bold';
+    case "h2":
+      variantClasses = "text-4xl font-bold leading-snug";
       break;
-    case 'h3':
-      // Semi-bold, mid-size, good for section titles
-      variantClasses = 'text-xl font-semibold';
+    case "h3":
+      variantClasses = "text-2xl font-semibold leading-snug";
       break;
-    case 'subtitle':
-      // Slightly larger body text, lighter color
-      variantClasses = 'text-lg font-semibold font-normal';
+    case "h4":
+      variantClasses = "text-xl font-semibold leading-snug";
       break;
-    case 'body1':
-      // Standard paragraph text
-      variantClasses = 'text-base leading-relaxed';
+    case "subtitle":
+      variantClasses = "text-lg font-medium";
       break;
-    case 'small':
-      // Footnotes or helper text
-      variantClasses = 'text-sm';
+    case "body1":
+      variantClasses = "text-base leading-relaxed";
+      break;
+    case "body2":
+      variantClasses = "text-sm leading-relaxed";
+      break;
+    case "caption":
+      variantClasses = "text-xs";
+      break;
+    case "overline":
+      variantClasses =
+        "uppercase tracking-widest text-xs font-medium";
+      break;
+    case "small":
+      variantClasses = "text-sm ";
       break;
     default:
-      // Fallback for safety
-      variantClasses = 'text-base';
+      variantClasses = "text-base";
   }
 
-  // 2. Determine the semantic HTML element to render
   const Component = ElementMap[variant];
 
-  // 3. Combine base, variant, color, and custom classes
   const finalClasses = clsx(
     variantClasses,
     color,
     className,
-    'font-[family-name:var(--font-geist-sans)]'
+    "font-[family-name:var(--font-geist-sans)]"
   );
 
-  // 4. Render the component with the determined tag and classes
   return (
     <Component className={finalClasses} {...props}>
       {children}
@@ -107,4 +98,4 @@ const Typography: React.FC<TypographyProps> = ({
   );
 };
 
-export default Typography
+export default Typography;
