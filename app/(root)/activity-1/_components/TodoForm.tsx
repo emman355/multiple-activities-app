@@ -7,7 +7,7 @@ import * as yup from 'yup'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Typography from '@/components/ui/typography'
-import { addTodo } from '../actions/todos/addTodo'
+import { addTodo } from '../_actions/todos/addTodo'
 import { useTransition } from 'react'
 
 const schema = yup.object({
