@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import TodoForm, { TodoFormValues } from './TodoForm'
 import TodoItemContent from './TodoItemContent'
-import { deleteTodo } from '../actions/todos/deleteTodo'
-import { updateTodo } from '../actions/todos/updateTodo'
-import { toggleTodo } from '../actions/todos/toggleTodo'
+import { deleteTodo } from '../_actions/todos/deleteTodo'
+import { updateTodo } from '../_actions/todos/updateTodo'
+import { toggleTodo } from '../_actions/todos/toggleTodo'
 
 export interface Todo {
   id: number

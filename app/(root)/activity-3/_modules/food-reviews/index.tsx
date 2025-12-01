@@ -1,6 +1,6 @@
 import Typography from "@/components/ui/typography";
-import { getFoodreviews } from "../action/getFoodreviews";
 import FoodPhotoCard from "./review-card";
+import { getFoodreviews } from "../../_action/getFoodreviews";
 
 export default async function FoodReviews() {
   const foodReview = await getFoodreviews();

@@ -7,11 +7,11 @@ import { useEffect, useState, useTransition } from "react"
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Skeleton } from "@/components/ui/skeleton";
-import { FoodReviewFormValues } from "../../_components/food-review-form"
-import { updateFoodReview } from "../../action/updateFoodReview"
-import { removeFoodReview } from "../../action/removeFoodReview"
 import EditDialog from "./edit-dialog"
 import DeleteDialog from "./delete-dialog"
+import { FoodReviewFormValues } from "../../../_components/food-review-form"
+import { updateFoodReview } from "../../../_action/updateFoodReview"
+import { removeFoodReview } from "../../../_action/removeFoodReview"
 
 export interface foodReview {
   id: string,
