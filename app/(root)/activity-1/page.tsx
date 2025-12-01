@@ -1,8 +1,8 @@
 import Typography from '@/components/ui/typography'
-import TodoForm from './_components/TodoForm'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Suspense } from 'react';
-import SkeletonCard from '../../_components/skeleton-card';
+import TodoForm from './_components/TodoForm';
+import SkeletonCard from '../_components/skeleton-card';
 import TodoList from './_components/TodoList';
 
 export default async function ActivityOne() {

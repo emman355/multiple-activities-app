@@ -6,8 +6,8 @@ import {
   DialogHeader, DialogTitle, DialogTrigger
 } from '@/components/ui/dialog'
 import { useState, useTransition } from 'react'
-import { createFoodReview } from '../action/createFoodReview'
-import FoodReviewForm, { FoodReviewFormValues } from '../_components/food-review-form';
+import FoodReviewForm, { FoodReviewFormValues } from '../../_components/food-review-form';
+import { createFoodReview } from '../../_action/createFoodReview';
 
 export default function UploadFoodReview() {
   const [open, setOpen] = useState(false)

@@ -1,7 +1,7 @@
 import React from 'react'
-import { CustomDialog } from '../../../_components/custom-dialog'
-import FoodReviewForm, { FoodReviewFormValues } from '../../../_components/food-review-form'
 import { foodReview } from '..'
+import { CustomDialog } from '@/app/(root)/activity-3/_components/custom-dialog'
+import FoodReviewForm, { FoodReviewFormValues } from '@/app/(root)/activity-3/_components/food-review-form'
 
 type EditDialogProps = {
   handleSubmit: (data: FoodReviewFormValues) => Promise<void>
