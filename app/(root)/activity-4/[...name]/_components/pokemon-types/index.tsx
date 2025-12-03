@@ -1,0 +1,46 @@
+import Typography from '@/components/ui/typography'
+import { capitalizeFirst, cn } from '@/lib/utils'
+import { PokemonType, PokemonTypeColor } from '../../../types';
+import { TYPE_ICON_MAP } from './type-icons';
+
+export const TYPE_COLOR_MAP: Record<PokemonTypeColor, string> = {
+  normal: "gray-600",
+  fire: "red-600",
+  water: "blue-600",
+  grass: "green-600",
+  electric: "yellow-500",
+  ice: "cyan-400",
+  fighting: "orange-700",
+  poison: "purple-600",
+  ground: "yellow-700",
+  flying: "sky-400",
+  psychic: "pink-500",
+  bug: "lime-600",
+  rock: "stone-500",
+  ghost: "indigo-700",
+  dragon: "indigo-500",
+  dark: "gray-800",
+  steel: "slate-400",
+  fairy: "fuchsia-400",
+};
+
+export default function PokemonTypes({ types }: { types: PokemonType[] }) {
+  return (
+    <div className='flex gap-2'>
+      {types.map(({ type }) => {
+        const RenderedIcon = TYPE_ICON_MAP[type.name as PokemonTypeColor];
+        const typeColor = TYPE_COLOR_MAP[type.name as PokemonTypeColor]
+        return (
+          <div key={type.name} className={cn("flex gap-2 rounded-4xl border border-gray-800 px-5 py-1 max-w-fit items-center")}>
+            <div className={cn(`w-6 h-6 text-${typeColor ?? "gray-500"}`)}>
+              {RenderedIcon}
+            </div>
+            <Typography variant="body1" className="font-semibold">{capitalizeFirst(type.name)}</Typography>
+          </div>
+        )
+      }
+      )}
+    </div>
+
+  )
+}
