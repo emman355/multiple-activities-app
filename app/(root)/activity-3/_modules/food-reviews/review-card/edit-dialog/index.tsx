@@ -1,6 +1,6 @@
 import React from 'react'
 import { foodReview } from '..'
-import { CustomDialog } from '@/app/(root)/activity-3/_components/custom-dialog'
+import { CustomDialog } from '@/app/(root)/_components/custom-dialog'
 import FoodReviewForm, { FoodReviewFormValues } from '@/app/(root)/activity-3/_components/food-review-form'
 
 type EditDialogProps = {

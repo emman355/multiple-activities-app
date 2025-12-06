@@ -1,13 +1,11 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { getAuthSession } from "@/lib/auth/session";
 import { revalidatePath } from "next/cache";
 
 export async function updateTodo(id: number, newTitle: string) {
   try {
-    const supabase = await createClient();
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) throw new Error("Not authenticated");
+    const session = await getAuthSession();
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/todos/${id}`, {
       method: "PATCH", // or PATCH depending on your backend
