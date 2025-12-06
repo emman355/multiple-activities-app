@@ -1,18 +1,22 @@
 "use server";
 
+import { revalidateTag, revalidatePath } from "next/cache";
 import { getAuthSession } from "@/lib/auth/session";
-import { revalidatePath, revalidateTag } from "next/cache";
 
-export async function removeFoodReview(id: string) {
+export async function removePokemonReview(
+  reviewId: string,
+  pokemonName: string
+) {
   try {
     const session = await getAuthSession();
 
     const backendRes = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/food-review/reviews/${id}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/pokemon-review/${reviewId}`,
       {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${session.access_token}`,
+          "Content-Type": "application/json",
         },
       }
     );
@@ -22,16 +26,18 @@ export async function removeFoodReview(id: string) {
       throw new Error(body.error || `Failed to delete review: ${backendRes.statusText}`);
     }
 
-    // ✅ revalidate both path and tag so UI updates
-    revalidatePath("/activity-3");
-    revalidateTag("foodReview", "max");
+    const deletedReview = await backendRes.json();
 
-    return { success: true };
+    // ✅ Revalidate cache so UI updates
+    revalidateTag("pokemonReview", "max");
+    revalidatePath(`/activity-4/${pokemonName}`);
+
+    return deletedReview;
   } catch (err) {
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Unknown error occurred while deleting review");
+      throw new Error("Unknown error occurred while deleting Pokémon review");
     }
   }
 }

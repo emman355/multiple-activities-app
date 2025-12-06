@@ -15,6 +15,7 @@ export default function Review({ value = '', onChange }: ReviewProps) {
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
         placeholder="Write your thoughts..."
+        className='h-35'
       />
     </div>
   )
