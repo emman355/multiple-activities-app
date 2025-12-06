@@ -11,49 +11,59 @@ const nextConfig: NextConfig = {
         {
           loader: "@svgr/webpack",
           options: {
-            icon: true
-          }
-        }
-      ]
+            icon: true,
+          },
+        },
+      ],
     });
     return config;
   },
+
   cacheComponents: true,
-   turbopack: {
+
+  turbopack: {
     rules: {
-      '*.svg': {
+      "*.svg": {
         loaders: [
           {
-            loader: '@svgr/webpack',
+            loader: "@svgr/webpack",
             options: {
               svgoConfig: {
                 plugins: [
                   {
-                    name: 'preset-default',
+                    name: "preset-default",
                     params: {
                       overrides: {
-                        // customize default plugin options
-                        removeViewBox: false,
+                        removeViewBox: false, // keep viewBox for responsiveness
                       },
                     },
                   },
-                  'removeDimensions',
+                  "removeDimensions",
                 ],
               },
             },
           },
         ],
-        as: '*.js',
+        as: "*.js",
       },
     },
   },
+
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb',
+      bodySizeLimit: "10mb",
     },
   },
-   images: {
-    domains: supabaseHostname ? [supabaseHostname] : [],
+
+  images: {
+    remotePatterns: supabaseHostname
+      ? [
+          {
+            protocol: "https",
+            hostname: supabaseHostname,
+          },
+        ]
+      : [],
   },
 };
 

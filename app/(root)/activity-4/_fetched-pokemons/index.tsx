@@ -17,7 +17,7 @@ export function randomUploadDate(): Date {
 
 export default async function FetchedPokemons() {
   'use cache'
-  const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=649&offset=0", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_POKEMON_API}/pokemon?limit=649&offset=0`, {
     next: {
       revalidate: 86400, // 24 hours in seconds
       tags: ["pokemon-review"],

@@ -87,4 +87,16 @@ export type PokemonTypeColor =
   | "dragon"
   | "dark"
   | "steel"
-  | "fairy"
+  | "fairy";
+
+
+export type PokemonReview = {
+  id: string;   
+  pokemonId: number;
+  userId: string;    
+  content: string;
+  rating: number;  
+  pokemonName: string;
+  uploadDate: string;
+  userEmail: string;
+}

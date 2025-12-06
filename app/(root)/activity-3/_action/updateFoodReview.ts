@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { getAuthSession } from "@/lib/auth/session";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function updateFoodReview({
@@ -19,16 +19,7 @@ export async function updateFoodReview({
   review: string;
 }) {
   try {
-    const supabase = await createClient();
-    const { data: { session }, error: authError } = await supabase.auth.getSession();
-
-    if (authError) {
-      throw new Error(`Auth error: ${authError.message}`);
-    }
-
-    if (!session) {
-      throw new Error("User not authenticated");
-    }
+    const session = await getAuthSession();
 
     const formData = new FormData();
     formData.append("photoName", photoName);

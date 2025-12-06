@@ -4,24 +4,24 @@ import { PokemonType, PokemonTypeColor } from '../../../types';
 import { TYPE_ICON_MAP } from './type-icons';
 
 export const TYPE_COLOR_MAP: Record<PokemonTypeColor, string> = {
-  normal: "gray-600",
-  fire: "red-600",
-  water: "blue-600",
-  grass: "green-600",
-  electric: "yellow-500",
-  ice: "cyan-400",
-  fighting: "orange-700",
-  poison: "purple-600",
-  ground: "yellow-700",
-  flying: "sky-400",
-  psychic: "pink-500",
-  bug: "lime-600",
-  rock: "stone-500",
-  ghost: "indigo-700",
-  dragon: "indigo-500",
-  dark: "gray-800",
-  steel: "slate-400",
-  fairy: "fuchsia-400",
+  normal: "text-gray-600",
+  fire: "text-red-600",
+  water: "text-blue-600",
+  grass: "text-green-600",
+  electric: "text-yellow-500",
+  ice: "text-cyan-400",
+  fighting: "text-orange-700",
+  poison: "text-purple-600",
+  ground: "text-yellow-700",
+  flying: "text-sky-400",
+  psychic: "text-pink-500",
+  bug: "text-lime-600",
+  rock: "text-stone-500",
+  ghost: "text-indigo-700",
+  dragon: "text-indigo-500",
+  dark: "text-gray-800",
+  steel: "text-slate-400",
+  fairy: "text-fuchsia-400",
 };
 
 export default function PokemonTypes({ types }: { types: PokemonType[] }) {
@@ -32,7 +32,7 @@ export default function PokemonTypes({ types }: { types: PokemonType[] }) {
         const typeColor = TYPE_COLOR_MAP[type.name as PokemonTypeColor]
         return (
           <div key={type.name} className={cn("flex gap-2 rounded-4xl border border-gray-800 px-5 py-1 max-w-fit items-center")}>
-            <div className={cn(`w-6 h-6 text-${typeColor ?? "gray-500"}`)}>
+            <div className={cn(`w-6 h-6 ${typeColor ?? "text-gray-500"}`)}>
               {RenderedIcon}
             </div>
             <Typography variant="body1" className="font-semibold">{capitalizeFirst(type.name)}</Typography>

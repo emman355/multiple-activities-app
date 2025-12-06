@@ -4,7 +4,7 @@ import Typography from '@/components/ui/typography'
 import { DialogClose, DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { foodReview } from '..'
-import { CustomDialog } from '@/app/(root)/activity-3/_components/custom-dialog'
+import { CustomDialog } from '@/app/(root)/_components/custom-dialog'
 
 type DeleteDialogProps = {
   openDelete: boolean
