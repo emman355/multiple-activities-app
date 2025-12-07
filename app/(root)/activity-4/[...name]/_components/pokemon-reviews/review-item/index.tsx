@@ -30,7 +30,7 @@ export default function ReviewItem({ review, session, details }: { review: Pokem
         )}
       </div>
 
-      <Rating value={3} readOnly>
+      <Rating value={review.rating} readOnly>
         {Array.from({ length: 5 }).map((_, index) => (
           <RatingButton className="text-amber-600" size={12} key={index} />
         ))}
