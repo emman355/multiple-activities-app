@@ -2,18 +2,28 @@ import Image from "next/image"
 import type { Ability, PokemonDetails, Stat } from "../../../types"
 import Typography from "@/components/ui/typography"
 import PokemonStats from "../pokemon-stats"
-import { capitalizeFirst, formatPokemonId } from "@/lib/utils"
+import { capitalizeFirst, formatDateToDMY, formatPokemonId } from "@/lib/utils"
 import PokemonTypes from "../pokemon-types"
 import PokemonAbilities from "../pokemon-abilities"
 import { Suspense } from "react"
 import PokemonReviews from "../pokemon-reviews"
 import ReviewsSkeleton from "../skeleton-ui/review-skeleton"
 
-export default async function PokemonDetailsComponent({ name }: { name: string }) {
+export default async function PokemonDetailsComponent({ name, uploadDate }: { name: string, uploadDate: string }) {
   const pokemonApi = process.env.NEXT_PUBLIC_POKEMON_API
   const [pokemonRes, speciesRes] = await Promise.all([
-    fetch(`${pokemonApi}/pokemon/${name}`),
-    fetch(`${pokemonApi}/pokemon-species/${name}`),
+    fetch(`${pokemonApi}/pokemon/${name}`, {
+      next: {
+        revalidate: 60,
+        tags: ["pokemon-details"], // optional: tag for manual invalidation
+      },
+    }),
+    fetch(`${pokemonApi}/pokemon-species/${name}`, {
+      next: {
+        revalidate: 60 * 60 * 24,
+        tags: ["pokemon-species"], // optional: tag for manual invalidation
+      },
+    }),
   ]);
 
   const { id, abilities, stats, types, sprites } = await pokemonRes.json();
@@ -42,7 +52,7 @@ export default async function PokemonDetailsComponent({ name }: { name: string }
     image_url: sprites?.other?.dream_world?.front_default,
     name,
   };
-
+  
   return (
     <div className='w-full flex justify-center p-10'>
       <div className='max-w-7xl flex flex-col w-full gap-10'>
@@ -64,6 +74,11 @@ export default async function PokemonDetailsComponent({ name }: { name: string }
               <Typography variant="h2">{`#${formatPokemonId(details.id)} ${capitalizeFirst(details.name)}`}</Typography>
               <Typography variant="body1">{details.description}</Typography>
             </div>
+            <div className="flex flex-col gap-2">
+              <Typography variant="subtitle">Upload Date</Typography>
+              <Typography variant="caption">{formatDateToDMY(new Date(uploadDate))}</Typography>
+            </div>
+
             {/* type */}
             <div className="flex flex-col gap-2">
               <Typography variant="subtitle">Type</Typography>
