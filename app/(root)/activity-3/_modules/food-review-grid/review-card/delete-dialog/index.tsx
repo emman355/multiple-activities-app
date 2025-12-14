@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Typography from '@/components/ui/typography'
 import { DialogClose, DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { foodReview } from '..'
 import { CustomDialog } from '@/app/(root)/_components/custom-dialog'
+import { foodReview } from '@/app/(root)/activity-3/types'
 
 type DeleteDialogProps = {
   openDelete: boolean
