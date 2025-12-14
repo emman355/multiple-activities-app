@@ -12,18 +12,7 @@ import DeleteDialog from "./delete-dialog"
 import { FoodReviewFormValues } from "../../../_components/food-review-form"
 import { updateFoodReview } from "../../../_action/updateFoodReview"
 import { removeFoodReview } from "../../../_action/removeFoodReview"
-
-export interface foodReview {
-  id: string,
-  userId: string,
-  photoName: string,
-  photoUrl: string,
-  location: string,
-  rating: number,
-  review: string,
-  uploadDate: string,
-  updatedAt: string,
-}
+import { foodReview } from "../../../types"
 
 type FoodReviewProps = {
   foodReview: foodReview

@@ -1,16 +1,15 @@
 'use client';
 
 import { Button } from '@/components/ui/button'
-import {
-  Dialog, DialogContent, DialogDescription,
-  DialogHeader, DialogTitle, DialogTrigger
-} from '@/components/ui/dialog'
 import { useState, useTransition } from 'react'
 import FoodReviewForm, { FoodReviewFormValues } from '../../_components/food-review-form';
 import { createFoodReview } from '../../_action/createFoodReview';
+import { CustomDialog } from '@/app/(root)/_components/custom-dialog';
+import { FaPlusCircle } from 'react-icons/fa';
+import Typography from '@/components/ui/typography';
 
 export default function UploadFoodReview() {
-  const [open, setOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
 
   const handleSubmit = async (data: FoodReviewFormValues) => {
@@ -23,22 +22,31 @@ export default function UploadFoodReview() {
         rating: data.rating,
         review: data.review,
       })
-      setOpen(false) // ✅ close dialog after submit
+      setIsOpen(false) // ✅ close dialog after submit
     })
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="secondary" size="lg">Upload Food Review</Button>
-      </DialogTrigger>
-      <DialogContent className="rounded-2xl sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>Share Your Food Experience</DialogTitle>
-          <DialogDescription>
-            Upload a photo and tell us what you think about your latest meal.
-          </DialogDescription>
-        </DialogHeader>
+    <div>
+      {/* Trigger Button */}
+      <Button
+        aria-label="Add new photo"
+        className="bg-gray-700 hover:bg-gray-500 flex items-center gap-2"
+        onClick={() => setIsOpen(true)}
+      >
+        <FaPlusCircle />
+        <Typography variant="small" className="font-semibold">
+          Add New Food Photo
+        </Typography>
+      </Button>
+
+      {/* Dialog */}
+      <CustomDialog
+        open={isOpen}
+        setOpen={setIsOpen}
+        className="sm:max-w-[600px] gap-6 p-8 font-(family-name:--font-geist-sans)"
+        title="Share Your Food Experience"
+        description="Upload a photo and tell us what you think about your latest meal.">
         <FoodReviewForm
           defaultValues={{
             food: '',
@@ -51,7 +59,7 @@ export default function UploadFoodReview() {
           submitLabel={isPending ? 'Uploading...' : 'Upload'}
           isPending={isPending}
         />
-      </DialogContent>
-    </Dialog>
+      </CustomDialog>
+    </div>
   )
 }

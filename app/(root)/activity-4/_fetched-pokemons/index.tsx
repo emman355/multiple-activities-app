@@ -1,44 +1,41 @@
 import React from 'react'
-import { Pokemon, PokemonWithUpload } from '../types';
-import PokemonList from '../_components/pokemon-list';
+import { Pokemon, PokemonWithUpload } from '../types'
+import PokemonList from '../_components/pokemon-list'
+import { cacheLife, cacheTag } from 'next/cache'
 
-// Generate a random date within the last year
-export function randomUploadDate(): Date {
-  const now = new Date();
-  const pastYear = new Date();
-  pastYear.setFullYear(now.getFullYear() - 1);
-
-  const randomTime =
-    pastYear.getTime() +
-    Math.random() * (now.getTime() - pastYear.getTime());
-
-  return new Date(randomTime);
+function randomUploadDate(): Date {
+  const now = Date.now()
+  const pastYear = new Date()
+  pastYear.setFullYear(new Date().getFullYear() - 1)
+  const randomTime = pastYear.getTime() + Math.random() * (now - pastYear.getTime())
+  return new Date(randomTime)
 }
 
-export default async function FetchedPokemons() {
-  'use cache'
-  const res = await fetch(`${process.env.NEXT_PUBLIC_POKEMON_API}/pokemon?limit=649&offset=0`, {
-    next: {
-      revalidate: 86400, // 24 hours in seconds
-      tags: ["pokemon-review"],
-    },
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch Pokémon: ${res.status} ${res.statusText}`);
+async function getPokemons(): Promise<PokemonWithUpload[]> {
+  if (!process.env.NEXT_PUBLIC_POKEMON_API) {
+    throw new Error("Missing NEXT_PUBLIC_POKEMON_API env variable")
   }
-  
-  const data = await res.json();
 
-  const pokemonList: PokemonWithUpload[] = data.results.map((pokemon: Pokemon) => {
-    const id = pokemon.url.split("/")[6];
+  const res = await fetch(`${process.env.NEXT_PUBLIC_POKEMON_API}/pokemon?limit=649&offset=0`)
+  if (!res.ok) throw new Error(`Failed to fetch Pokémon: ${res.status} ${res.statusText}`)
+
+  const data = await res.json()
+  return data.results.map((pokemon: Pokemon) => {
+    const id = new URL(pokemon.url).pathname.split("/").filter(Boolean).pop()!
     return {
       id,
       name: pokemon.name,
       image_url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`,
-      upload_date: randomUploadDate(), // each one gets its own random date
-    };
-  });
+      upload_date: randomUploadDate(),
+    }
+  })
+}
 
-  return <PokemonList pokemonList={pokemonList} />;
+export default async function FetchedPokemons() {
+  'use cache'
+  cacheTag('pokemon-list')
+  cacheLife({ revalidate: 60 * 60 * 24, expire: 60 * 60 * 24 * 7 })
+
+  const pokemonList = await getPokemons()
+  return <PokemonList pokemonList={pokemonList} />
 }
