@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ACCEPTED_REGEX } from "@/lib/schema/constants"
-import UploadPhoto from "../upload-photo"
 import Ratings from "../../../_components/ratings"
 import Review from "../../../_components/review"
 import { DialogClose, DialogFooter } from "@/components/ui/dialog"
+import UploadPhoto from "@/app/(root)/_components/upload-photo"
 
 const schema = yup.object({
   food: yup.string()
