@@ -34,7 +34,10 @@ export default function PokemonList({ pokemonList }: { pokemonList: PokemonWithU
         {/* Search */}
         <SearchBar
           value={searchTerm}
-          onChange={setSearchTerm}
+          onChange={(term) => {
+            setSearchTerm(term);
+            setCurrentPage(1);
+          }}
           placeholder="Search Pokémon by name..."
         />
         {/* Sort Controls */}

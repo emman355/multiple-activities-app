@@ -12,18 +12,8 @@ import ReviewsSkeleton from "../skeleton-ui/review-skeleton"
 export default async function PokemonDetailsComponent({ name, uploadDate }: { name: string, uploadDate: string }) {
   const pokemonApi = process.env.NEXT_PUBLIC_POKEMON_API
   const [pokemonRes, speciesRes] = await Promise.all([
-    fetch(`${pokemonApi}/pokemon/${name}`, {
-      next: {
-        revalidate: 60,
-        tags: ["pokemon-details"], // optional: tag for manual invalidation
-      },
-    }),
-    fetch(`${pokemonApi}/pokemon-species/${name}`, {
-      next: {
-        revalidate: 60 * 60 * 24,
-        tags: ["pokemon-species"], // optional: tag for manual invalidation
-      },
-    }),
+    fetch(`${pokemonApi}/pokemon/${name}`),
+    fetch(`${pokemonApi}/pokemon-species/${name}`),
   ]);
 
   const { id, abilities, stats, types, sprites } = await pokemonRes.json();

@@ -1,69 +1,55 @@
 import type { NextConfig } from "next";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseHostname = supabaseUrl ? new URL(supabaseUrl).hostname : undefined;
+if (!supabaseUrl) {
+  throw new Error("NEXT_PUBLIC_SUPABASE_URL is not defined");
+}
+const supabaseHostname = new URL(supabaseUrl).hostname;
+
+const svgrOptions = {
+  icon: true,
+  svgoConfig: {
+    plugins: [
+      {
+        name: "preset-default",
+        params: {
+          overrides: { removeViewBox: false },
+        },
+      },
+      "removeDimensions",
+    ],
+  },
+};
 
 const nextConfig: NextConfig = {
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      use: [
-        {
-          loader: "@svgr/webpack",
-          options: {
-            icon: true,
-          },
-        },
-      ],
+      use: [{ loader: "@svgr/webpack", options: svgrOptions }],
     });
     return config;
   },
-
   cacheComponents: true,
-
   turbopack: {
     rules: {
       "*.svg": {
-        loaders: [
-          {
-            loader: "@svgr/webpack",
-            options: {
-              svgoConfig: {
-                plugins: [
-                  {
-                    name: "preset-default",
-                    params: {
-                      overrides: {
-                        removeViewBox: false, // keep viewBox for responsiveness
-                      },
-                    },
-                  },
-                  "removeDimensions",
-                ],
-              },
-            },
-          },
-        ],
+        loaders: [{ loader: "@svgr/webpack", options: svgrOptions }],
         as: "*.js",
       },
     },
   },
 
   experimental: {
-    serverActions: {
-      bodySizeLimit: "10mb",
-    },
+    serverActions: { bodySizeLimit: "10mb" },
   },
 
   images: {
-    remotePatterns: supabaseHostname
-      ? [
-          {
-            protocol: "https",
-            hostname: supabaseHostname,
-          },
-        ]
-      : [],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: supabaseHostname,
+      },
+    ],
   },
 };
 
