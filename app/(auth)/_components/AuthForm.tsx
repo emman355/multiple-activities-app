@@ -9,6 +9,7 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { useEffect } from "react";
 
 interface FieldConfig<T extends FieldValues> {
   name: Path<T>; // ✅ use Path<T> directly
@@ -38,6 +39,11 @@ export function AuthForm<T extends Record<string, unknown>>({
     mode: "onChange", // ✅ validate while typing
     defaultValues,
   });
+
+  // expose reset via props or context
+  useEffect(() => {
+    form.reset(defaultValues); // clears on mount
+  }, [form, defaultValues]);
 
   return (
     <Form {...form}>
