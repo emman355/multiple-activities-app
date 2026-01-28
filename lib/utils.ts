@@ -1,5 +1,8 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import {
+  type JSONContent,
+} from "@tiptap/react";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -130,6 +133,95 @@ export function filterAndSort<T extends object>(
   });
 
   return list;
+}
+
+
+// Convert TipTap JSONContent to Markdown
+export function jsonToMarkdown(node: JSONContent): string {
+  if (!node) return ''
+
+  let markdown = ''
+
+  switch (node.type) {
+    case 'doc':
+      markdown = node.content?.map(jsonToMarkdown).join('\n\n') || ''
+      break
+
+    case 'paragraph':
+      markdown = node.content?.map(jsonToMarkdown).join('') || ''
+      break
+
+    case 'text':
+      let text = node.text || ''
+      if (node.marks) {
+        node.marks.forEach(mark => {
+          switch (mark.type) {
+            case 'bold':
+              text = `**${text}**`
+              break
+            case 'italic':
+              text = `*${text}*`
+              break
+            case 'code':
+              text = `\`${text}\``
+              break
+            case 'strike':
+              text = `~~${text}~~`
+              break
+          }
+        })
+      }
+      markdown = text
+      break
+
+    case 'heading':
+      const level = node.attrs?.level || 1
+      const headingText = node.content?.map(jsonToMarkdown).join('') || ''
+      markdown = `${'#'.repeat(level)} ${headingText}`
+      break
+
+    case 'bulletList':
+      markdown = node.content?.map(jsonToMarkdown).join('\n') || ''
+      break
+
+    case 'orderedList':
+      markdown = node.content?.map((item, index) => {
+        const itemText = jsonToMarkdown(item)
+        return itemText.replace(/^- /, `${index + 1}. `)
+      }).join('\n') || ''
+      break
+
+    case 'listItem':
+      const itemContent = node.content?.map(jsonToMarkdown).join('\n') || ''
+      markdown = `- ${itemContent}`
+      break
+
+    case 'codeBlock':
+      const language = node.attrs?.language || ''
+      const code = node.content?.map(jsonToMarkdown).join('') || ''
+      markdown = `\`\`\`${language}\n${code}\n\`\`\``
+      break
+
+    case 'blockquote':
+      const quoteContent = node.content?.map(jsonToMarkdown).join('\n') || ''
+      markdown = quoteContent.split('\n').map(line => `> ${line}`).join('\n')
+      break
+
+    case 'hardBreak':
+      markdown = '  \n'
+      break
+
+    case 'horizontalRule':
+      markdown = '---'
+      break
+
+    default:
+      if (node.content) {
+        markdown = node.content.map(jsonToMarkdown).join('')
+      }
+  }
+
+  return markdown
 }
 
 
