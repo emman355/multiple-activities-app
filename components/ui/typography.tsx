@@ -1,7 +1,8 @@
+"use client";
+
 import React from "react";
 import clsx from "clsx";
 
-// --- Type Definitions ---
 type Variant =
   | "h1"
   | "h2"
@@ -12,9 +13,8 @@ type Variant =
   | "body2"
   | "caption"
   | "overline"
-  | "small";
+  | "small"
 
-// --- Semantic Element Mapping ---
 const ElementMap: Record<Variant, React.ElementType> = {
   h1: "h1",
   h2: "h2",
@@ -32,15 +32,14 @@ interface TypographyProps {
   children: React.ReactNode;
   variant: Variant;
   className?: string;
-  color?: string;
+  color?: string; // optional override
 }
 
-// --- Typography Component ---
 const Typography: React.FC<TypographyProps> = ({
   children,
   variant,
   className,
-  color = "text-gray-200",
+  color = "text-foreground", // default to your theme foreground
   ...props
 }) => {
   let variantClasses: string;
@@ -76,7 +75,7 @@ const Typography: React.FC<TypographyProps> = ({
         "uppercase tracking-widest text-xs font-medium";
       break;
     case "small":
-      variantClasses = "text-sm ";
+      variantClasses = "text-sm";
       break;
     default:
       variantClasses = "text-base";
@@ -86,9 +85,9 @@ const Typography: React.FC<TypographyProps> = ({
 
   const finalClasses = clsx(
     variantClasses,
-    color,
+    color, // uses theme token like text-foreground, text-muted-foreground, etc.
     className,
-    "font-[family-name:var(--font-geist-sans)]"
+    "font-sans" // maps to var(--font-sans) from your theme
   );
 
   return (
