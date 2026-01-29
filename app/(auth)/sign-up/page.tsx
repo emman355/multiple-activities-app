@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useCallback, useState } from "react";
-import { AuthForm } from "../_components/AuthForm";
-import { loginSchema, LoginSchema } from "@/lib/schema/login";
-import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
-import { LoadingOverlay } from "@/components/ui/loadingOverlay";
-import toast from "react-hot-toast";
+import { useCallback, useState } from 'react';
+import { AuthForm } from '../_components/AuthForm';
+import { loginSchema, LoginSchema } from '@/lib/schema/login';
+import { createClient } from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
+import { LoadingOverlay } from '@/components/ui/loadingOverlay';
+import toast from 'react-hot-toast';
 
 export default function SignUp() {
   const router = useRouter();
@@ -26,20 +26,19 @@ export default function SignUp() {
 
         if (error) {
           setErrorMsg(error.message);
-          toast.error(error.message || "Sign-up failed");
+          toast.error(error.message || 'Sign-up failed');
           return;
         }
 
         if (data.session) {
-          toast.success("Sign-up successful!");
-          router.push("/");
+          toast.success('Sign-up successful!');
+          router.push('/');
         } else {
           // Supabase may require email confirmation
-          toast.success("Check your email to confirm your account!");
+          toast.success('Check your email to confirm your account!');
         }
       } catch (err) {
-        const message =
-          err instanceof Error ? err.message : "Unexpected error occurred";
+        const message = err instanceof Error ? err.message : 'Unexpected error occurred';
         setErrorMsg(message);
         toast.error(message);
       } finally {
@@ -60,7 +59,7 @@ export default function SignUp() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="mt-4 text-red-600 text-sm"
+            className="mt-4 text-destructive text-sm"
           >
             {errorMsg}
           </motion.p>
@@ -69,20 +68,20 @@ export default function SignUp() {
 
       <AuthForm<LoginSchema>
         schema={loginSchema}
-        defaultValues={{ email: "", password: "" }}
+        defaultValues={{ email: '', password: '' }}
         onSubmit={onSubmit}
         fields={[
           {
-            name: "email",
-            label: "Email",
-            type: "email",
-            placeholder: "you@example.com",
+            name: 'email',
+            label: 'Email',
+            type: 'email',
+            placeholder: 'you@example.com',
           },
           {
-            name: "password",
-            label: "Password",
-            type: "password",
-            placeholder: "Please enter your password",
+            name: 'password',
+            label: 'Password',
+            type: 'password',
+            placeholder: 'Please enter your password',
           },
         ]}
       />
@@ -90,8 +89,8 @@ export default function SignUp() {
       <LoadingOverlay
         show={loading}
         label="Signing Up..."
-        className="border-blue-600"
-        textColor="text-blue-600"
+        className="border-primary"
+        textColor="text-primary"
       />
     </>
   );

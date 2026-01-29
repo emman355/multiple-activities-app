@@ -1,15 +1,10 @@
-'use client'
+'use client';
 
-import { Card } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { Skeleton } from '@/components/ui/skeleton'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs'
-import { Edit, Eye } from 'lucide-react'
+import { Card } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Edit, Eye } from 'lucide-react';
 
 export default function NoteEditSkeleton() {
   return (
@@ -68,8 +63,8 @@ export default function NoteEditSkeleton() {
       {/* Content Editor Card Skeleton */}
       <Card className="overflow-hidden">
         <Tabs defaultValue="editor" className="w-full">
-          <div className="bg-gray-50 border-b px-6 py-3">
-            <TabsList className="grid w-xs grid-cols-2 bg-gray-500">
+          <div className="bg-secondary border-b px-6 py-3">
+            <TabsList className="grid w-xs grid-cols-2 bg-accent-foreground/80">
               <TabsTrigger value="editor" disabled>
                 <Edit className="h-4 w-4" />
                 Editor
@@ -113,5 +108,5 @@ export default function NoteEditSkeleton() {
         <Skeleton className="h-10 w-32" />
       </div>
     </div>
-  )
+  );
 }

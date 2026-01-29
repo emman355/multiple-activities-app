@@ -1,29 +1,29 @@
-"use client"
+'use client';
 
-import { Rating, RatingButton } from "@/components/ui/shadcn-io/rating"
-import Typography from "@/components/ui/typography"
-import Image from "next/image"
-import { useEffect, useState, useTransition } from "react"
-import { MdOutlineModeEditOutline } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { Skeleton } from "@/components/ui/skeleton";
-import EditDialog from "./edit-dialog"
-import DeleteDialog from "./delete-dialog"
-import { FoodReviewFormValues } from "../../../_components/food-review-form"
-import { updateFoodReview } from "../../../_action/updateFoodReview"
-import { removeFoodReview } from "../../../_action/removeFoodReview"
-import { foodReview } from "../../../types"
+import { Rating, RatingButton } from '@/components/ui/shadcn-io/rating';
+import Typography from '@/components/ui/typography';
+import Image from 'next/image';
+import { useEffect, useState, useTransition } from 'react';
+import { MdOutlineModeEditOutline } from 'react-icons/md';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+import { Skeleton } from '@/components/ui/skeleton';
+import EditDialog from './edit-dialog';
+import DeleteDialog from './delete-dialog';
+import { FoodReviewFormValues } from '../../../_components/food-review-form';
+import { updateFoodReview } from '../../../_action/updateFoodReview';
+import { removeFoodReview } from '../../../_action/removeFoodReview';
+import { foodReview } from '../../../types';
 
 type FoodReviewProps = {
-  foodReview: foodReview
-}
+  foodReview: foodReview;
+};
 
 export default function ReviewCard({ foodReview }: FoodReviewProps) {
   const [loaded, setLoaded] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false)
-  const [isPendingEdit, startTransitionEdit] = useTransition()
-  const [isPendingDelete, startTransitionDelete] = useTransition()
+  const [openDelete, setOpenDelete] = useState(false);
+  const [isPendingEdit, startTransitionEdit] = useTransition();
+  const [isPendingDelete, startTransitionDelete] = useTransition();
 
   useEffect(() => {
     let mounted = true;
@@ -47,10 +47,9 @@ export default function ReviewCard({ foodReview }: FoodReviewProps) {
           location: data.restourant,
           rating: data.rating,
           review: data.review,
-        })
+        });
 
-        setOpenEdit(false) // close edit dialog after submit
-
+        setOpenEdit(false); // close edit dialog after submit
       } catch (error) {
         // Rethrow so Next.js error.tsx catches it
         if (error instanceof Error) {
@@ -59,8 +58,8 @@ export default function ReviewCard({ foodReview }: FoodReviewProps) {
           throw new Error(`Failed to edit review: ${error}`);
         }
       }
-    })
-  }
+    });
+  };
 
   const handleDeleteReview = async () => {
     startTransitionDelete(async () => {
@@ -76,18 +75,14 @@ export default function ReviewCard({ foodReview }: FoodReviewProps) {
           throw new Error(`Failed to delete review: ${error}`);
         }
       }
-    })
-  }
+    });
+  };
 
   return (
-    <div
-      className="w-full flex flex-col rounded-2xl border border-gray-800 overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-    >
+    <div className="w-full flex flex-col rounded-2xl border border-border overflow-hidden shadow-md hover:shadow-lg transition-shadow">
       {/* Image container */}
       <div className="relative h-70">
-        {!loaded && (
-          <Skeleton className="absolute inset-0 bg-gray-800 rounded-xs" />
-        )}
+        {!loaded && <Skeleton className="absolute inset-0 bg-muted rounded-xs" />}
         <Image
           key={foodReview.photoUrl}
           alt={foodReview.photoName}
@@ -105,18 +100,22 @@ export default function ReviewCard({ foodReview }: FoodReviewProps) {
       <div className="flex flex-col gap-5 p-4">
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center">
-            <Typography variant="subtitle" className="font-semibold">{foodReview.photoName}</Typography>
+            <Typography variant="subtitle" className="font-semibold">
+              {foodReview.photoName}
+            </Typography>
             <div className="flex gap-4">
               <div onClick={() => setOpenEdit(true)}>
-                <MdOutlineModeEditOutline size={18} className="text-gray-300" />
+                <MdOutlineModeEditOutline size={18} className="text-muted-foreground" />
               </div>
               <div onClick={() => setOpenDelete(true)}>
-                <RiDeleteBin6Line size={18} className="text-red-700" />
+                <RiDeleteBin6Line size={18} className="text-destructive" />
               </div>
             </div>
           </div>
-          <Typography variant="small" className="text-gray-400">{foodReview.location}</Typography>
-          <Typography variant="caption" className="text-gray-500">
+          <Typography variant="small" className="text-muted-foreground">
+            {foodReview.location}
+          </Typography>
+          <Typography variant="caption" className="text-muted-foreground">
             Uploaded: {new Date(foodReview.updatedAt).toLocaleDateString()}
           </Typography>
         </div>
@@ -131,7 +130,7 @@ export default function ReviewCard({ foodReview }: FoodReviewProps) {
 
         <div className="flex items-center gap-2">
           <Typography variant="caption">Review:</Typography>
-          <Typography variant="small" className="text-muted">{foodReview.review}</Typography>
+          <Typography variant="small">{foodReview.review}</Typography>
         </div>
       </div>
 
@@ -148,10 +147,8 @@ export default function ReviewCard({ foodReview }: FoodReviewProps) {
         handleDeleteReview={handleDeleteReview}
         isPendingDelete={isPendingDelete}
         openDelete={openDelete}
-        setOpenDelete={setOpenDelete} />
+        setOpenDelete={setOpenDelete}
+      />
     </div>
-  )
+  );
 }
-
-
-

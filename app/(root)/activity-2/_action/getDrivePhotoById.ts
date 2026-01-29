@@ -19,7 +19,6 @@ export async function getDrivePhotoById(photoId: string) {
           "Content-Type": "application/json",
         },
         next: {
-          revalidate: 30,
           tags: [`driveLitePhoto-${photoId}`],
         },
       }

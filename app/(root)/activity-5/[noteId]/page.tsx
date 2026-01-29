@@ -1,21 +1,30 @@
-import React from 'react'
+import React from 'react';
 import { getNoteById } from '../_action/getNotesById';
 import NotesDetails from '../_components/NoteDetails';
-import { getAuthSession } from '@/lib/auth/session';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 type NotesDetailsProps = {
-  noteId: string
-}
+  noteId: string;
+};
 
 export default async function Note({ params }: { params: Promise<NotesDetailsProps> }) {
   const { noteId } = await params;
-  const session = await getAuthSession();
-  const note = await getNoteById(noteId, session.access_token);
+  const note = await getNoteById(noteId);
   return (
-    <div className="w-full flex flex-col items-center gap-12 p-10 bg-gray-50 min-h-screen">
-      <div className="max-w-7xl w-full flex flex-col gap-10 bg-white shadow-md rounded-lg p-8">
+    <div className="w-full items-center flex flex-col gap-12 p-10 bg-background min-h-screen">
+      <div className="max-w-7xl w-full flex flex-col gap-10 bg-card/70 shadow-md rounded-lg p-8">
+        {/* Back Button */}
+        <div className="w-full flex justify-start pt-4">
+          <Link href="/activity-5">
+            <Button variant="ghost" className="gap-2">
+              ← Back to Notes Lists
+            </Button>
+          </Link>
+        </div>
+
         <NotesDetails note={note} />
       </div>
     </div>
-  )
+  );
 }

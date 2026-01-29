@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { LoadingOverlay } from "@/components/ui/loadingOverlay";
-import { createClient } from "@/lib/supabase/client";
-import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import toast from "react-hot-toast";
+import { Button } from '@/components/ui/button';
+import { LoadingOverlay } from '@/components/ui/loadingOverlay';
+import { createClient } from '@/lib/supabase/client';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -20,13 +20,13 @@ export default function Home() {
       const { error } = await supabase.auth.signOut();
       if (error) {
         setErrorMsg(`Error signing out: ${error.message}`);
-        toast.error(error.message || "Error signing out");
+        toast.error(error.message || 'Error signing out');
         return;
       }
-      toast.success("Signed out successfully!");
+      toast.success('Signed out successfully!');
       router.refresh(); // ✅ ensures form state is reset
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unexpected error occurred";
+      const message = error instanceof Error ? error.message : 'Unexpected error occurred';
       setErrorMsg(message);
       toast.error(message);
     } finally {
@@ -45,7 +45,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="mt-4 text-red-600 text-sm"
+            className="mt-4 text-destructive text-sm"
           >
             {errorMsg}
           </motion.p>
@@ -63,8 +63,8 @@ export default function Home() {
       <LoadingOverlay
         show={loading}
         label="Logging out..."
-        className="border-red-600"
-        textColor="text-red-600"
+        className="border-destructive"
+        textColor="text-destructive"
       />
     </>
   );

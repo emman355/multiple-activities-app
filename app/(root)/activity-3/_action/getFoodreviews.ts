@@ -13,7 +13,6 @@ export async function getFoodreviews() {
         "Content-Type": "application/json",
       },
       next: {
-        revalidate: 30,
         tags: ["foodReview"], // optional: tag for manual invalidation
       },
     });
