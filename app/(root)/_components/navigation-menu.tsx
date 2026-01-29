@@ -94,7 +94,7 @@ export const Navbar02 = React.forwardRef<HTMLElement, Navbar02Props>(
     return (
       <header
         ref={combinedRef}
-        className="sticky top-0 z-50 w-full bg-gray-900/95 backdrop-blur supports-backdrop-filter:bg-gray-900/60 px-4 md:px-6 **:no-underline"
+        className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 px-4 md:px-6 **:no-underline"
         {...props}
       >
         <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between gap-4">
@@ -113,7 +113,7 @@ export const Navbar02 = React.forwardRef<HTMLElement, Navbar02Props>(
                 </PopoverTrigger>
                 <PopoverContent
                   align="start"
-                  className="bg-gray-700 w-fit"
+                  className="bg-card w-fit"
                 >
                   <NavigationMenu>
                     <NavigationMenuList className="flex flex-col items-center">

@@ -1,22 +1,27 @@
-import Image from 'next/image'
-import { useEffect, useState, useTransition } from 'react'
-import { Photo } from '../../../types'
-import Typography from '@/components/ui/typography'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { MoreVertical } from 'lucide-react'
-import Link from 'next/link'
-import EditDialog from '../../edit-dialog'
-import { DriveLiteAddFormValues } from '@/lib/schema/drive-lite-photo'
-import { updateDrivePhoto } from '../../../_action/updateDrivePhoto'
-import { removeDrivePhoto } from '../../../_action/removeDrivePhoto'
-import { Skeleton } from '@/components/ui/skeleton'
-import DeleteDialog from '../../delete-dialog'
+import Image from 'next/image';
+import { useEffect, useState, useTransition } from 'react';
+import { Photo } from '../../../types';
+import Typography from '@/components/ui/typography';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { MoreVertical } from 'lucide-react';
+import Link from 'next/link';
+import EditDialog from '../../edit-dialog';
+import { DriveLiteAddFormValues } from '@/lib/schema/drive-lite-photo';
+import { updateDrivePhoto } from '../../../_action/updateDrivePhoto';
+import { removeDrivePhoto } from '../../../_action/removeDrivePhoto';
+import { Skeleton } from '@/components/ui/skeleton';
+import DeleteDialog from '../../delete-dialog';
 
 export default function PhotoCard({ photo }: { photo: Photo }) {
   const [openEdit, setOpenEdit] = useState(false);
-  const [isPendingEdit, startTransitionEdit] = useTransition()
-  const [openDelete, setOpenDelete] = useState(false)
-  const [isPendingDelete, startTransitionDelete] = useTransition()
+  const [isPendingEdit, startTransitionEdit] = useTransition();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [isPendingDelete, startTransitionDelete] = useTransition();
   const [loaded, setLoaded] = useState(false);
 
   const handleDeletePhoto = async () => {
@@ -33,8 +38,8 @@ export default function PhotoCard({ photo }: { photo: Photo }) {
           throw new Error(`Failed to delete review: ${error}`);
         }
       }
-    })
-  }
+    });
+  };
 
   const handleEditPhotoDetails = async (data: DriveLiteAddFormValues) => {
     startTransitionEdit(async () => {
@@ -44,9 +49,9 @@ export default function PhotoCard({ photo }: { photo: Photo }) {
           file: data.photo ?? undefined, // 👈 optional file
           title: data.title,
           description: data.description,
-        })
+        });
 
-        setOpenEdit(false) // close edit dialog after submit
+        setOpenEdit(false); // close edit dialog after submit
       } catch (error) {
         // Rethrow so Next.js error.tsx catches it
         if (error instanceof Error) {
@@ -55,8 +60,8 @@ export default function PhotoCard({ photo }: { photo: Photo }) {
           throw new Error(`Failed to edit review: ${error}`);
         }
       }
-    })
-  }
+    });
+  };
   useEffect(() => {
     let mounted = true;
     const id = window.setTimeout(() => {
@@ -70,14 +75,10 @@ export default function PhotoCard({ photo }: { photo: Photo }) {
   }, [photo.photoUrl]);
 
   return (
-    <div
-      className="w-full flex flex-col rounded-2xl border border-gray-800 overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-    >
+    <div className="w-full flex flex-col rounded-2xl border border-border overflow-hidden shadow-md hover:shadow-lg transition-shadow">
       {/* Image container */}
       <div className="relative h-70">
-        {!loaded && (
-          <Skeleton className="absolute inset-0 bg-gray-800 rounded-xs" />
-        )}
+        {!loaded && <Skeleton className="absolute inset-0 bg-muted rounded-xs" />}
         <Image
           key={photo.photoUrl} // forces remount when URL changes
           alt={photo.photoName}
@@ -102,28 +103,23 @@ export default function PhotoCard({ photo }: { photo: Photo }) {
             {/* Dropdown actions */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="p-1 rounded-full hover:bg-gray-700 focus:outline-none">
-                  <MoreVertical size={18} className="text-gray-300" />
+                <button className="p-1 rounded-full hover:bg-accent focus:outline-none">
+                  <MoreVertical size={18} className="text-muted-foreground" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
                   <Link href={`/activity-2/${photo.id}`}>View Details</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setOpenEdit(true)}>
-                  Edit
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="text-red-600"
-                  onClick={() => setOpenDelete(true)}
-                >
+                <DropdownMenuItem onClick={() => setOpenEdit(true)}>Edit</DropdownMenuItem>
+                <DropdownMenuItem className="text-destructive" onClick={() => setOpenDelete(true)}>
                   Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
 
-          <Typography variant="caption" className="text-gray-500">
+          <Typography variant="caption" className="text-muted-foreground">
             Uploaded: {new Date(photo.updatedAt).toLocaleDateString()}
           </Typography>
         </div>
@@ -142,7 +138,8 @@ export default function PhotoCard({ photo }: { photo: Photo }) {
         handleDeletePhoto={handleDeletePhoto}
         isPendingDelete={isPendingDelete}
         openDelete={openDelete}
-        setOpenDelete={setOpenDelete} />
+        setOpenDelete={setOpenDelete}
+      />
     </div>
-  )
+  );
 }

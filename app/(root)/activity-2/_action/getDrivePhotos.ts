@@ -13,7 +13,7 @@ export async function getDrivePhotos() {
         "Content-Type": "application/json",
       },
       next: {
-        revalidate: 30,
+        revalidate: 10,
         tags: ["driveLitePhotos"], // optional: tag for manual invalidation
       },
     });

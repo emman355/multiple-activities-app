@@ -19,7 +19,7 @@ export const LoadingSpinner = ({
 }: LoadingSpinnerProps) => {
   const finalClasses = clsx(
   className,
-  'block rounded-full border-4 border-t-transparent border-blue-900'
+  'block rounded-full border-4 border-t-transparent border-primary'
 );
   return (
     <motion.div

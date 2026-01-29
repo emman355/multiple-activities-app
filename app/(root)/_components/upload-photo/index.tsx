@@ -66,7 +66,7 @@ const UploadPhoto = ({ value, onChange, setError, clearErrors, existingUrl }: Up
           <div className="h-[150px]">
             {
               !loaded && (
-                <Skeleton className="absolute inset-0 bg-gray-800 rounded-xs" />
+                <Skeleton className="absolute inset-0 rounded-xs" />
               )
             }
             <Image

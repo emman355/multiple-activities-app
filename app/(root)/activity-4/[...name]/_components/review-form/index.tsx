@@ -41,13 +41,13 @@ export default function PokemonReviewForm({ defaultValues, onSubmit, submitLabel
       {/* Rating */}
       <div className="flex flex-col gap-2">
         <Controller name="rating" control={control} render={({ field }) => <Ratings value={field.value} onChange={field.onChange} />} />
-        {errors.rating && <span className="text-red-500">{errors.rating.message}</span>}
+        {errors.rating && <span className="text-destructive">{errors.rating.message}</span>}
       </div>
 
       {/* Review */}
       <div className="flex flex-col gap-2">
         <Controller name="review" control={control} render={({ field }) => <Review value={field.value} onChange={field.onChange} />} />
-        {errors.review && <span className="text-red-500">{errors.review.message}</span>}
+        {errors.review && <span className="text-destructive">{errors.review.message}</span>}
       </div>
 
       <DialogFooter className="flex flex-col-reverse gap-4 lg:flex-row lg:gap-2">

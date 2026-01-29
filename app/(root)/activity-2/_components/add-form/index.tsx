@@ -1,27 +1,27 @@
-"use client"
+'use client';
 
-import { useForm, Controller } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { DialogClose, DialogFooter } from "@/components/ui/dialog"
-import UploadPhoto from "@/app/(root)/_components/upload-photo"
-import { driveLiteAddFormSchema, DriveLiteAddFormValues } from "@/lib/schema/drive-lite-photo"
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { DialogClose, DialogFooter } from '@/components/ui/dialog';
+import UploadPhoto from '@/app/(root)/_components/upload-photo';
+import { driveLiteAddFormSchema, DriveLiteAddFormValues } from '@/lib/schema/drive-lite-photo';
 
 type Props = {
-  defaultValues?: Partial<DriveLiteAddFormValues>
-  onSubmit: (values: DriveLiteAddFormValues) => Promise<void>
-  submitLabel?: string
-  isPending?: boolean
-  existingUrl?: string
-}
+  defaultValues?: Partial<DriveLiteAddFormValues>;
+  onSubmit: (values: DriveLiteAddFormValues) => Promise<void>;
+  submitLabel?: string;
+  isPending?: boolean;
+  existingUrl?: string;
+};
 
 export default function DriveLiteForm({
   defaultValues,
   onSubmit,
-  submitLabel = "Save",
+  submitLabel = 'Save',
   isPending,
   existingUrl,
 }: Props) {
@@ -35,7 +35,7 @@ export default function DriveLiteForm({
     resolver: yupResolver(driveLiteAddFormSchema),
     defaultValues,
     context: { isEdit: !!existingUrl },
-  })
+  });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
@@ -54,9 +54,7 @@ export default function DriveLiteForm({
             />
           )}
         />
-        {errors.photo && (
-          <p className="text-sm text-red-500">{errors.photo.message}</p>
-        )}
+        {errors.photo && <p className="text-sm text-destructive">{errors.photo.message}</p>}
       </div>
 
       {/* Title */}
@@ -73,12 +71,12 @@ export default function DriveLiteForm({
               disabled={isPending || isSubmitting}
               aria-invalid={!!errors.title}
               aria-describedby="title-error"
-              className="rounded-md border-gray-700 focus:ring-2 focus:ring-primary"
+              className="rounded-md border-border focus:ring-2 focus:ring-primary"
             />
           )}
         />
         {errors.title && (
-          <p id="title-error" className="text-sm text-red-500">
+          <p id="title-error" className="text-sm text-destructive">
             {errors.title.message}
           </p>
         )}
@@ -99,12 +97,12 @@ export default function DriveLiteForm({
               aria-invalid={!!errors.description}
               aria-describedby="description-error"
               rows={1}
-              className="resize-none rounded-md border-gray-700 focus:ring-2 focus:ring-primary"
+              className="resize-none rounded-md border-border focus:ring-2 focus:ring-primary"
             />
           )}
         />
         {errors.description && (
-          <p id="description-error" className="text-sm text-red-500">
+          <p id="description-error" className="text-sm text-destructive">
             {errors.description.message}
           </p>
         )}
@@ -137,5 +135,5 @@ export default function DriveLiteForm({
         </Button>
       </DialogFooter>
     </form>
-  )
+  );
 }

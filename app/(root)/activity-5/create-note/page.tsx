@@ -1,15 +1,19 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import RichTextEditor from '@/components/ui/rich-text-editor'
+import RichTextEditor from '@/components/ui/rich-text-editor';
 import Typography from '@/components/ui/typography';
 import { Controller, useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { type JSONContent } from '@tiptap/react';
 import {
-  type JSONContent,
-} from "@tiptap/react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { createNote } from '../_action/createNote';
 import { useState, useTransition } from 'react';
 import * as yup from 'yup';
@@ -49,10 +53,11 @@ const noteSchema = yup.object().shape({
 
       const hasText = content.some((node: JSONContent) => {
         if (node.type === 'paragraph' && node.content && Array.isArray(node.content)) {
-          return node.content.some((textNode: JSONContent) =>
-            textNode.type === 'text' &&
-            typeof textNode.text === 'string' &&
-            textNode.text.trim().length > 0
+          return node.content.some(
+            (textNode: JSONContent) =>
+              textNode.type === 'text' &&
+              typeof textNode.text === 'string' &&
+              textNode.text.trim().length > 0
           );
         }
         return false;
@@ -63,29 +68,27 @@ const noteSchema = yup.object().shape({
 });
 
 const categoryOptions = [
-  { value: 'work', label: 'Work', color: 'bg-blue-500' },
-  { value: 'personal', label: 'Personal', color: 'bg-green-500' },
-  { value: 'ideas', label: 'Ideas', color: 'bg-purple-500' },
-  { value: 'projects', label: 'Projects', color: 'bg-orange-500' },
+  { value: 'work', label: 'Work', color: 'bg-primary' },
+  { value: 'personal', label: 'Personal', color: 'bg-secondary' },
+  { value: 'ideas', label: 'Ideas', color: 'bg-accent' },
+  { value: 'projects', label: 'Projects', color: 'bg-[#ea580c]' },
 ];
 
 export default function CreateNotePage() {
-  const [isPending, startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition();
   const [editorKey, setEditorKey] = useState(0);
   const {
     control,
     handleSubmit,
     reset,
     watch,
-    formState: { errors, isDirty, isSubmitting }
+    formState: { errors, isDirty, isSubmitting },
   } = useForm<FormValues>({
     resolver: yupResolver(noteSchema),
     defaultValues: {
       editorContent: {
-        type: "doc",
-        content: [
-          { type: 'paragraph', content: [{ type: 'text', text: '' }] }
-        ]
+        type: 'doc',
+        content: [{ type: 'paragraph', content: [{ type: 'text', text: '' }] }],
       },
       title: '',
       category: 'work',
@@ -104,25 +107,23 @@ export default function CreateNotePage() {
           category: data?.category,
         });
 
-        toast.success("Note created successfully!", {
+        toast.success('Note created successfully!', {
           icon: '✅',
           duration: 3000,
         });
 
         reset({
           editorContent: {
-            type: "doc",
-            content: [
-              { type: 'paragraph', content: [{ type: 'text', text: '' }] }
-            ]
+            type: 'doc',
+            content: [{ type: 'paragraph', content: [{ type: 'text', text: '' }] }],
           },
           title: '',
           category: 'work',
         });
 
-        setEditorKey(prev => prev + 1);
+        setEditorKey((prev) => prev + 1);
       } catch (error) {
-        const message = error instanceof Error ? error.message : "Unexpected error occurred";
+        const message = error instanceof Error ? error.message : 'Unexpected error occurred';
         toast.error(message, {
           icon: '❌',
           duration: 4000,
@@ -132,7 +133,7 @@ export default function CreateNotePage() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-linear-to-br from-gray-50 via-white to-gray-50 p-6 md:p-10">
+    <div className="w-full min-h-screen bg-background p-6 md:p-10">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Back Button */}
         <Link href="/activity-5">
@@ -150,7 +151,7 @@ export default function CreateNotePage() {
                 <Sparkles className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <Typography variant="h2" className="text-3xl font-bold text-gray-900">
+                <Typography variant="h2" className="text-3xl font-bold text-foreground">
                   Create New Note
                 </Typography>
                 <Typography variant="small" className="text-muted-foreground mt-1">
@@ -167,14 +168,14 @@ export default function CreateNotePage() {
               className="gap-2 shadow-md"
             >
               <Save className="h-5 w-5" />
-              {isPending ? "Saving..." : "Save Note"}
+              {isPending ? 'Saving...' : 'Save Note'}
             </Button>
           </div>
         </Card>
 
         {/* Preview Card (shows title and category) */}
         {(currentTitle || selectedCategory) && (
-          <Card className="p-4 bg-linear-to-r from-blue-50 to-purple-50 border border-dashed">
+          <Card className="p-4 bg-secondary/10 border border-dashed">
             <div className="flex items-center gap-3">
               <FileText className="h-5 w-5 text-muted-foreground" />
               <div className="flex-1">
@@ -185,8 +186,10 @@ export default function CreateNotePage() {
                   <Typography variant="body1" className="font-semibold">
                     {currentTitle || 'Untitled Note'}
                   </Typography>
-                  <Badge className={`${categoryOptions.find(c => c.value === selectedCategory)?.color} text-white`}>
-                    {categoryOptions.find(c => c.value === selectedCategory)?.label}
+                  <Badge
+                    className={`${categoryOptions.find((c) => c.value === selectedCategory)?.color} text-white`}
+                  >
+                    {categoryOptions.find((c) => c.value === selectedCategory)?.label}
                   </Badge>
                 </div>
               </div>
@@ -196,16 +199,18 @@ export default function CreateNotePage() {
 
         {/* Main Form Card */}
         <Card className="p-8">
-          <form
-            id="addNoteForm"
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-8"
-          >
+          <form id="addNoteForm" onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             {/* Title Field */}
             <div className="space-y-3">
-              <Label htmlFor="title" className="text-base font-semibold text-gray-900 flex items-center gap-2">
+              <Label
+                htmlFor="title"
+                className="text-base font-semibold text-foreground flex items-center gap-2"
+              >
                 <FileText className="h-4 w-4" />
-                Note Title <Typography variant='small' className="text-red-500">*</Typography>
+                Note Title{' '}
+                <Typography variant="small" className="text-destructive">
+                  *
+                </Typography>
               </Label>
               <Controller
                 name="title"
@@ -215,16 +220,14 @@ export default function CreateNotePage() {
                     {...field}
                     id="title"
                     placeholder="e.g. Meeting Notes, Project Ideas, Weekly Goals..."
-                    className={`h-12 text-lg ${errors.title ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                    className={`h-12 text-lg ${errors.title ? 'border-destructive focus-visible:ring-destructive' : ''}`}
                   />
                 )}
               />
               {errors.title?.message && (
-                <div className="flex items-center gap-2 text-red-600">
-                  <div className="h-1 w-1 rounded-full bg-red-600" />
-                  <Typography variant="small">
-                    {errors.title.message}
-                  </Typography>
+                <div className="flex items-center gap-2 text-destructive">
+                  <div className="h-1 w-1 rounded-full bg-destructive" />
+                  <Typography variant="small">{errors.title.message}</Typography>
                 </div>
               )}
             </div>
@@ -233,15 +236,20 @@ export default function CreateNotePage() {
 
             {/* Category Field */}
             <div className="space-y-3">
-              <Label htmlFor="category" className="text-base font-semibold text-gray-900">
-                Category <Typography variant='small' className="text-red-500">*</Typography>
+              <Label htmlFor="category" className="text-base font-semibold text-foreground">
+                Category{' '}
+                <Typography variant="small" className="text-destructive">
+                  *
+                </Typography>
               </Label>
               <Controller
                 name="category"
                 control={control}
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className={`h-12 ${errors.category ? 'border-red-500' : ''}`}>
+                    <SelectTrigger
+                      className={`h-12 ${errors.category ? 'border-destructive' : ''}`}
+                    >
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
@@ -258,11 +266,9 @@ export default function CreateNotePage() {
                 )}
               />
               {errors.category?.message && (
-                <div className="flex items-center gap-2 text-red-600">
-                  <div className="h-1 w-1 rounded-full bg-red-600" />
-                  <Typography variant="small">
-                    {errors.category.message}
-                  </Typography>
+                <div className="flex items-center gap-2 text-destructive">
+                  <div className="h-1 w-1 rounded-full bg-destructive" />
+                  <Typography variant="small">{errors.category.message}</Typography>
                 </div>
               )}
             </div>
@@ -271,14 +277,19 @@ export default function CreateNotePage() {
 
             {/* Content Field */}
             <div className="space-y-3">
-              <Label htmlFor="editorContent" className="text-base font-semibold text-gray-900">
-                Note Content <Typography variant='small' className="text-red-500">*</Typography>
+              <Label htmlFor="editorContent" className="text-base font-semibold text-foreground">
+                Note Content{' '}
+                <Typography variant="small" className="text-destructive">
+                  *
+                </Typography>
               </Label>
               <Controller
                 name="editorContent"
                 control={control}
                 render={({ field }) => (
-                  <div className={`rounded-lg overflow-hidden ${errors.editorContent ? 'ring-2 ring-red-500' : 'border'}`}>
+                  <div
+                    className={`rounded-lg overflow-hidden ${errors.editorContent ? 'ring-2 ring-destructive' : 'border'}`}
+                  >
                     <RichTextEditor
                       key={editorKey}
                       onChange={field.onChange}
@@ -288,14 +299,15 @@ export default function CreateNotePage() {
                 )}
               />
               {errors.editorContent?.message && typeof errors.editorContent.message === 'string' ? (
-                <div className="flex items-center gap-2 text-red-600">
-                  <div className="h-1 w-1 rounded-full bg-red-600" />
-                  <Typography variant="small">
-                    {errors.editorContent.message}
-                  </Typography>
+                <div className="flex items-center gap-2 text-destructive">
+                  <div className="h-1 w-1 rounded-full bg-destructive" />
+                  <Typography variant="small">{errors.editorContent.message}</Typography>
                 </div>
               ) : (
-                <Typography variant='small' className="text-muted-foreground flex items-center gap-2">
+                <Typography
+                  variant="small"
+                  className="text-muted-foreground flex items-center gap-2"
+                >
                   <Sparkles className="h-3 w-3" />
                   Write down your thoughts, ideas, or plans here. Format with rich text tools above.
                 </Typography>
@@ -316,7 +328,7 @@ export default function CreateNotePage() {
                 className="gap-2 min-w-[140px]"
               >
                 <Save className="h-5 w-5" />
-                {isPending ? "Saving..." : "Save Note"}
+                {isPending ? 'Saving...' : 'Save Note'}
               </Button>
             </div>
           </form>

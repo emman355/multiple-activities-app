@@ -1,7 +1,7 @@
 "use server";
 
+import { getAuthSession } from "@/lib/auth/session";
 import { type JSONContent } from "@tiptap/react";
-import { cacheTag } from "next/cache";
 
 export type Note = {
   id: string;
@@ -13,29 +13,30 @@ export type Note = {
   updatedAt: string;
 };
 
-export async function getNoteById(id: string, accessToken: string) {
-  "use cache";
-
+export async function getNoteById(id: string) {
   //!for future use
   //? Set cache lifetime to 5 minutes
+  // "use cache";
   // cacheLife({
   //   stale: 300,      // Stale after 5 minutes
   //   revalidate: 600, // Revalidate after 10 minutes
   //   expire: 3600,    // Expire after 1 hour
   // });
-
-  // Add cache tags for targeted revalidation
-  cacheTag("notes");
-  cacheTag(`note-${id}`);
+  // cacheTag("notes");
+  // cacheTag(`note-${id}`);
 
   try {
+    const session = await getAuthSession()
     const backendRes = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notes/${id}`,
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${session?.access_token}`,
           "Content-Type": "application/json",
+        },
+        next: {
+          tags: ["notes", `note-${id}`],
         },
       }
     );

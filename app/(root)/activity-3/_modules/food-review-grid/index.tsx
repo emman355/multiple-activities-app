@@ -1,11 +1,11 @@
-import Typography from "@/components/ui/typography";
-import FoodPhotoCard from "./review-card";
-import { FoodReviewGridProps } from "../../types";
+import Typography from '@/components/ui/typography';
+import FoodPhotoCard from './review-card';
+import { FoodReviewGridProps } from '../../types';
 
 export default function FoodReviewGrid({ fetchFoodReview }: FoodReviewGridProps) {
   if (!fetchFoodReview || fetchFoodReview.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 border border-gray-800 rounded-lg">
+      <div className="flex flex-col items-center justify-center py-12 border border-border rounded-lg">
         <Typography variant="subtitle" className="mb-2">
           No Reviews Yet
         </Typography>
