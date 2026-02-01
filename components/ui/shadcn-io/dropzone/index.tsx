@@ -29,18 +29,12 @@ const renderBytes = (bytes: number) => {
   return `${size.toFixed(2)}${units[unitIndex]}`;
 };
 
-const DropzoneContext = createContext<DropzoneContextType | undefined>(
-  undefined
-);
+const DropzoneContext = createContext<DropzoneContextType | undefined>(undefined);
 
 export type DropzoneProps = Omit<DropzoneOptions, 'onDrop'> & {
   src?: File[];
   className?: string;
-  onDrop?: (
-    acceptedFiles: File[],
-    fileRejections: FileRejection[],
-    event: DropEvent
-  ) => void;
+  onDrop?: (acceptedFiles: File[], fileRejections: FileRejection[], event: DropEvent) => void;
   children?: ReactNode;
 };
 
@@ -113,11 +107,7 @@ export type DropzoneContentProps = {
   className?: string;
 };
 
-
-export const DropzoneContent = ({
-  children,
-  className,
-}: DropzoneContentProps) => {
+export const DropzoneContent = ({ children, className }: DropzoneContentProps) => {
   const { src } = useDropzoneContext();
 
   if (!src) {
@@ -130,12 +120,10 @@ export const DropzoneContent = ({
 
   return (
     <div className={cn('flex flex-col items-center justify-center', className)}>
-      <div className="flex size-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
+      <div className="flex size-8 items-center justify-center rounded-md bg-foreground text-muted-foreground">
         <UploadIcon size={16} />
       </div>
-      <p className="w-full text-wrap text-muted-foreground text-xs">
-        Drag and drop or click to replace
-      </p>
+      <p className="w-full text-wrap text-foreground text-xs">Drag and drop or click to replace</p>
     </div>
   );
 };
@@ -145,10 +133,7 @@ export type DropzoneEmptyStateProps = {
   className?: string;
 };
 
-export const DropzoneEmptyState = ({
-  children,
-  className,
-}: DropzoneEmptyStateProps) => {
+export const DropzoneEmptyState = ({ children, className }: DropzoneEmptyStateProps) => {
   const { src, accept, maxSize, minSize, maxFiles } = useDropzoneContext();
 
   if (src) {
@@ -185,9 +170,7 @@ export const DropzoneEmptyState = ({
       <p className="w-full truncate text-wrap text-muted-foreground text-xs">
         Drag and drop or click to upload
       </p>
-      {caption && (
-        <p className="text-wrap text-muted-foreground text-xs">{caption}.</p>
-      )}
+      {caption && <p className="text-wrap text-muted-foreground text-xs">{caption}.</p>}
     </div>
   );
 };

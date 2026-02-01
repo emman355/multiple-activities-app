@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { getAuthSession } from "@/lib/auth/session";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { getAuthSession } from '@/lib/auth/session';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export async function removeFoodReview(id: string) {
   try {
@@ -10,9 +10,9 @@ export async function removeFoodReview(id: string) {
     const backendRes = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/food-review/reviews/${id}`,
       {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${session?.access_token}`,
         },
       }
     );
@@ -23,15 +23,15 @@ export async function removeFoodReview(id: string) {
     }
 
     // ✅ revalidate both path and tag so UI updates
-    revalidatePath("/activity-3");
-    revalidateTag("foodReview", "max");
+    revalidatePath('/activity-3');
+    revalidateTag('foodReview', 'max');
 
     return { success: true };
   } catch (err) {
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Unknown error occurred while deleting review");
+      throw new Error('Unknown error occurred while deleting review');
     }
   }
 }

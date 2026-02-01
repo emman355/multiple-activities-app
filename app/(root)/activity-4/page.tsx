@@ -5,7 +5,7 @@ import FetchedPokemons from './_fetched-pokemons';
 
 export default function ActivityFour() {
   return (
-    <div className="w-full flex flex-col items-center gap-12 p-10">
+    <div className="w-full flex flex-col items-center gap-12">
       <Typography variant="h2">Pokémon Review</Typography>
       <div className="max-w-7xl flex flex-col w-full gap-10">
         <section>

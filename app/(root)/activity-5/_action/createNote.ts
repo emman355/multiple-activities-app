@@ -26,7 +26,7 @@ export async function createNote(values: NoteFormValues) {
     const backendRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notes`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${session.access_token}`,
+        Authorization: `Bearer ${session?.access_token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({

@@ -17,7 +17,7 @@ export async function updateNote(
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notes/${noteId}`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${session.access_token}`,
+        Authorization: `Bearer ${session?.access_token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -42,7 +42,10 @@ export async function updateNote(
 
     return updatedNote;
   } catch (error) {
-    console.error('Error updating note:', error);
-    throw error;
+    if (error instanceof Error) {
+      throw error;
+    } else {
+      throw new Error('Unknown error occurred while updating note');
+    }
   }
 }

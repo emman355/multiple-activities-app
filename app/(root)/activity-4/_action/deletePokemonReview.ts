@@ -1,22 +1,19 @@
-"use server";
+'use server';
 
-import { revalidateTag, revalidatePath } from "next/cache";
-import { getAuthSession } from "@/lib/auth/session";
+import { revalidateTag, revalidatePath } from 'next/cache';
+import { getAuthSession } from '@/lib/auth/session';
 
-export async function removePokemonReview(
-  reviewId: string,
-  pokemonName: string
-) {
+export async function removePokemonReview(reviewId: string, pokemonName: string) {
   try {
     const session = await getAuthSession();
 
     const backendRes = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/pokemon-review/${reviewId}`,
       {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${session.access_token}`,
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token}`,
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -29,7 +26,7 @@ export async function removePokemonReview(
     const deletedReview = await backendRes.json();
 
     // ✅ Revalidate cache so UI updates
-    revalidateTag("pokemonReview", "max");
+    revalidateTag('pokemonReview', 'max');
     revalidatePath(`/activity-4/${pokemonName}`);
 
     return deletedReview;
@@ -37,7 +34,7 @@ export async function removePokemonReview(
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Unknown error occurred while deleting Pokémon review");
+      throw new Error('Unknown error occurred while deleting Pokémon review');
     }
   }
 }

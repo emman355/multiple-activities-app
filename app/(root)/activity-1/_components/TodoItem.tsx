@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useOptimistic, useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import TodoForm, { TodoFormValues } from './TodoForm';
@@ -22,42 +22,44 @@ interface TodoItemProps {
   todo: Todo;
 }
 
+type OptimisticAction = { type: 'toggle'; done: boolean } | { type: 'update'; title: string };
+
 export default function TodoItem({ todo }: TodoItemProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [localDone, setLocalDone] = useState(todo.done);
-  const [localTitle, setLocalTitle] = useState(todo.title);
+  const [isPending, startTransition] = useTransition();
 
-  // separate transitions
-  const [isSaving, startSaving] = useTransition();
-  const [isDeleting, startDeleting] = useTransition();
-  const [isToggling, startToggling] = useTransition();
+  const [optimisticTodo, setOptimisticTodo] = useOptimistic(
+    todo,
+    (state, action: OptimisticAction) => {
+      switch (action.type) {
+        case 'toggle':
+          return { ...state, done: action.done };
+        case 'update':
+          return { ...state, title: action.title };
+        default:
+          return state;
+      }
+    }
+  );
 
   const handleSave = (data: TodoFormValues) => {
-    // optimistic update
-    setLocalTitle(data.title);
-    startSaving(async () => {
+    startTransition(async () => {
+      setOptimisticTodo({ type: 'update', title: data.title });
       await updateTodo(todo.id, data.title);
+      setIsEditing(false);
     });
-    setIsEditing(isSaving);
   };
 
   const handleDelete = (id: number) => {
-    startDeleting(async () => {
+    startTransition(async () => {
       await deleteTodo(id);
     });
   };
 
   const handleToggle = (checked: boolean) => {
-    // optimistic update
-    setLocalDone(checked);
-
-    startToggling(async () => {
-      try {
-        await toggleTodo({ id: todo.id, done: checked });
-      } catch {
-        // rollback if backend fails
-        setLocalDone(todo.done);
-      }
+    startTransition(async () => {
+      setOptimisticTodo({ type: 'toggle', done: checked });
+      await toggleTodo({ id: todo.id, done: checked });
     });
   };
 
@@ -66,8 +68,8 @@ export default function TodoItem({ todo }: TodoItemProps) {
       <div className="flex flex-3 gap-5 items-center w-full">
         <Checkbox
           id={`todo-${todo.id}`}
-          checked={localDone}
-          disabled={isToggling}
+          checked={optimisticTodo.done}
+          disabled={isPending}
           onCheckedChange={(checked) => handleToggle(!!checked)}
           className="data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
         />
@@ -76,26 +78,33 @@ export default function TodoItem({ todo }: TodoItemProps) {
             <TodoForm
               setIsEditing={setIsEditing}
               onSubmit={handleSave}
-              initialValue={localTitle}
-              submitLabel={isSaving ? 'saving...' : 'save'}
+              initialValue={optimisticTodo.title}
+              submitLabel={isPending ? 'Saving...' : 'Save'}
+              disabled={isPending}
             />
           ) : (
-            <TodoItemContent title={localTitle} updatedAt={todo.updatedAt} />
+            <TodoItemContent title={optimisticTodo.title} updatedAt={todo.updatedAt} />
           )}
         </div>
       </div>
+
       {!isEditing && (
         <div className="flex flex-1 flex-col lg:flex-row gap-3 w-full justify-end">
-          <Button size="lg" variant="outline" onClick={() => setIsEditing(true)}>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => setIsEditing(true)}
+            disabled={isPending}
+          >
             Edit
           </Button>
           <Button
             size="lg"
             variant="destructive"
             onClick={() => handleDelete(todo.id)}
-            disabled={isDeleting}
+            disabled={isPending}
           >
-            {isDeleting ? (
+            {isPending ? (
               <span className="flex items-center gap-2">
                 <span className="animate-spin h-4 w-4 border-2 border-t-transparent rounded-full" />
                 Deleting...

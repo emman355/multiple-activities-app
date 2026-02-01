@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Skeleton } from "@/components/ui/skeleton";
+import * as React from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function PokemonDetailsSkeleton() {
   return (
-    <div className="flex flex-col items-center w-full p-10">
+    <div className="flex flex-col items-center w-full">
       <div className="flex flex-col gap-10 w-full max-w-7xl">
         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-5">
           <div className="flex justify-center h-96 lg:h-auto relative">
@@ -45,28 +45,22 @@ export function PokemonDetailsSkeleton() {
             <div className="flex flex-col gap-4">
               <Skeleton className="h-6 w-40" />
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-2">
-                {[
-                  "HP",
-                  "Attack",
-                  "Defense",
-                  "Special Attack",
-                  "Special Defense",
-                  "Speed",
-                ].map((label) => (
-                  <div key={label} className="grid grid-cols-2 lg:grid-cols-2 gap-1 items-center">
-                    <div className="flex flex-row justify-between mb-1 items-center">
-                      <Skeleton className="h-4 w-20" /> {/* stat label */}
-                      <Skeleton className="h-4 w-5" /> {/* stat value */}
+                {['HP', 'Attack', 'Defense', 'Special Attack', 'Special Defense', 'Speed'].map(
+                  (label) => (
+                    <div key={label} className="grid grid-cols-2 lg:grid-cols-2 gap-1 items-center">
+                      <div className="flex flex-row justify-between mb-1 items-center">
+                        <Skeleton className="h-4 w-20" /> {/* stat label */}
+                        <Skeleton className="h-4 w-5" /> {/* stat value */}
+                      </div>
+                      <Skeleton className="h-3 w-full rounded" /> {/* bar */}
                     </div>
-                    <Skeleton className="h-3 w-full rounded" /> {/* bar */}
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             </div>
           </div>
         </div>
         {/* User reviews */}
-        
       </div>
     </div>
   );

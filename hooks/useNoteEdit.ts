@@ -1,19 +1,11 @@
-// hooks/useNoteEdit.ts
 import { useState, useEffect, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { type JSONContent } from '@tiptap/react';
 import toast from 'react-hot-toast';
 import { noteSchema } from '@/lib/schema/note';
-import { Note } from '@/lib/types/note';
+import { Note, NoteFormValues } from '@/lib/types/note';
 import { updateNote } from '@/app/(root)/activity-5/_action/updateNote';
-
-type FormValues = {
-  title: string;
-  editorContent: JSONContent;
-  category: string;
-};
 
 export function useNoteEdit(note: Note) {
   const router = useRouter();
@@ -28,7 +20,7 @@ export function useNoteEdit(note: Note) {
     category: note.category || 'ideas',
   });
 
-  const form = useForm<FormValues>({
+  const form = useForm<NoteFormValues>({
     resolver: yupResolver(noteSchema),
     defaultValues: {
       title: note.title,
@@ -66,7 +58,7 @@ export function useNoteEdit(note: Note) {
     });
   }, [note.id, note.title, note.content, note.category, reset]);
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: NoteFormValues) => {
     startTransition(async () => {
       try {
         await updateNote(note.id, {

@@ -11,7 +11,7 @@ export async function deleteNote(noteId: string) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${session.access_token}`,
+        Authorization: `Bearer ${session?.access_token}`,
         'Content-Type': 'application/json',
       },
     });
@@ -27,7 +27,10 @@ export async function deleteNote(noteId: string) {
 
     return { success: true };
   } catch (error) {
-    console.error('Error deleting note:', error);
-    throw error;
+    if (error instanceof Error) {
+      throw error;
+    } else {
+      throw new Error('Unknown error occurred while deleting note');
+    }
   }
 }

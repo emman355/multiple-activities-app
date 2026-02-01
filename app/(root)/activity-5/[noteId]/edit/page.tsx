@@ -12,8 +12,8 @@ export default async function EditNotePage({ params }: { params: Promise<EditNot
   const { noteId } = await params;
 
   return (
-    <div className="w-full flex flex-col items-center gap-12 p-10 bg-background min-h-screen">
-      <div className="max-w-7xl w-full flex flex-col gap-10 bg-card/70 shadow-md rounded-lg p-8">
+    <div className="w-full flex flex-col items-center gap-12 min-h-screen">
+      <div className="max-w-7xl w-full flex flex-col gap-10 shadow-md rounded-lg">
         <Suspense fallback={<NoteEditSkeleton />}>
           <NoteEditContent noteId={noteId} />
         </Suspense>
