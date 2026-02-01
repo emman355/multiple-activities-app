@@ -1,20 +1,19 @@
-"use server";
+'use server';
 
-import { getAuthSession } from "@/lib/auth/session";
+import { getAuthSession } from '@/lib/auth/session';
 
 export async function getDrivePhotos() {
   try {
     const session = await getAuthSession();
 
     const backendRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/drive-lite/photos`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: `Bearer ${session.access_token}`,
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${session?.access_token}`,
+        'Content-Type': 'application/json',
       },
       next: {
-        revalidate: 10,
-        tags: ["driveLitePhotos"], // optional: tag for manual invalidation
+        tags: ['driveLitePhotos'], // optional: tag for manual invalidation
       },
     });
 
@@ -31,7 +30,7 @@ export async function getDrivePhotos() {
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Unknown error occurred while fetching photos");
+      throw new Error('Unknown error occurred while fetching photos');
     }
   }
 }

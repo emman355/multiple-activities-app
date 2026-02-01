@@ -1,22 +1,22 @@
-"use server";
+'use server';
 
-import { getAuthSession } from "@/lib/auth/session";
+import { getAuthSession } from '@/lib/auth/session';
 
 export async function getDrivePhotoById(photoId: string) {
   try {
     const session = await getAuthSession();
 
     if (!photoId) {
-      throw new Error("Photo ID is required");
+      throw new Error('Photo ID is required');
     }
 
     const backendRes = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/drive-lite/photos/${photoId}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: `Bearer ${session.access_token}`,
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token}`,
+          'Content-Type': 'application/json',
         },
         next: {
           tags: [`driveLitePhoto-${photoId}`],
@@ -26,9 +26,7 @@ export async function getDrivePhotoById(photoId: string) {
 
     if (!backendRes.ok) {
       const body = await backendRes.json().catch(() => ({}));
-      throw new Error(
-        body.error || `Failed to fetch photo: ${backendRes.statusText}`
-      );
+      throw new Error(body.error || `Failed to fetch photo: ${backendRes.statusText}`);
     }
 
     const result = await backendRes.json();
@@ -39,7 +37,7 @@ export async function getDrivePhotoById(photoId: string) {
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Unknown error occurred while fetching photo");
+      throw new Error('Unknown error occurred while fetching photo');
     }
   }
 }

@@ -6,7 +6,7 @@ import FetchFoodList from './_modules/fetched-food-review';
 
 export default function ActivityThree() {
   return (
-    <div className="w-full flex flex-col items-center gap-12 p-10">
+    <div className="w-full flex flex-col items-center gap-12">
       <Typography variant="h2">Food Review</Typography>
       <div className="max-w-7xl flex flex-col w-full gap-10">
         <section>

@@ -7,10 +7,9 @@ import TodoList from './_components/TodoList';
 
 export default async function ActivityOne() {
   return (
-    <div className="flex flex-col items-center gap-12 p-10">
+    <div className="flex flex-col items-center gap-12">
       <Typography variant="h2">Todo List</Typography>
-      <div className="flex max-w-4xl flex-col w-full items-center gap-10">
-        {/* ✅ Reusable Form */}
+      <div className="flex max-w-7xl flex-col w-full items-center gap-10">
         <TodoForm submitLabel="Add Todo" />
 
         <div className="flex flex-col gap-5 w-full">

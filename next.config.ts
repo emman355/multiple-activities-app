@@ -1,8 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 if (!supabaseUrl) {
-  throw new Error("NEXT_PUBLIC_SUPABASE_URL is not defined");
+  throw new Error('NEXT_PUBLIC_SUPABASE_URL is not defined');
 }
 const supabaseHostname = new URL(supabaseUrl).hostname;
 
@@ -11,12 +11,12 @@ const svgrOptions = {
   svgoConfig: {
     plugins: [
       {
-        name: "preset-default",
+        name: 'preset-default',
         params: {
           overrides: { removeViewBox: false },
         },
       },
-      "removeDimensions",
+      'removeDimensions',
     ],
   },
 };
@@ -25,29 +25,33 @@ const nextConfig: NextConfig = {
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      use: [{ loader: "@svgr/webpack", options: svgrOptions }],
+      use: [{ loader: '@svgr/webpack', options: svgrOptions }],
     });
     return config;
   },
   cacheComponents: true,
   turbopack: {
     rules: {
-      "*.svg": {
-        loaders: [{ loader: "@svgr/webpack", options: svgrOptions }],
-        as: "*.js",
+      '*.svg': {
+        loaders: [{ loader: '@svgr/webpack', options: svgrOptions }],
+        as: '*.js',
       },
     },
   },
 
   experimental: {
-    serverActions: { bodySizeLimit: "10mb" },
+    serverActions: { bodySizeLimit: '10mb' },
   },
 
   images: {
     remotePatterns: [
       {
-        protocol: "https",
+        protocol: 'https',
         hostname: supabaseHostname,
+      },
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
       },
     ],
   },

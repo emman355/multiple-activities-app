@@ -1,7 +1,6 @@
-"use server";
+'use server';
 
-import { createClient } from "../supabase/server";
-import { redirect } from "next/navigation";
+import { createClient } from '../supabase/server';
 
 export async function getAuthSession() {
   const supabase = await createClient();
@@ -12,11 +11,6 @@ export async function getAuthSession() {
 
   if (error) {
     throw new Error(`Auth error: ${error.message}`);
-  }
-
-  if (!session) {
-    // Redirect to sign-in page with a flag
-    redirect("/sign-in?expired=true");
   }
 
   return session;

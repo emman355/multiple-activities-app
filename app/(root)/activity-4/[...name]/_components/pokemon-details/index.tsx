@@ -1,16 +1,22 @@
-import Image from "next/image"
-import type { Ability, PokemonDetails, Stat } from "../../../types"
-import Typography from "@/components/ui/typography"
-import PokemonStats from "../pokemon-stats"
-import { capitalizeFirst, formatDateToDMY, formatPokemonId } from "@/lib/utils"
-import PokemonTypes from "../pokemon-types"
-import PokemonAbilities from "../pokemon-abilities"
-import { Suspense } from "react"
-import PokemonReviews from "../pokemon-reviews"
-import ReviewsSkeleton from "../skeleton-ui/review-skeleton"
+import Image from 'next/image';
+import type { Ability, PokemonDetails, Stat } from '../../../types';
+import Typography from '@/components/ui/typography';
+import PokemonStats from '../pokemon-stats';
+import { capitalizeFirst, formatDateToDMY, formatPokemonId } from '@/lib/utils';
+import PokemonTypes from '../pokemon-types';
+import PokemonAbilities from '../pokemon-abilities';
+import { Suspense } from 'react';
+import PokemonReviews from '../pokemon-reviews';
+import ReviewsSkeleton from '../skeleton-ui/review-skeleton';
 
-export default async function PokemonDetailsComponent({ name, uploadDate }: { name: string, uploadDate: string }) {
-  const pokemonApi = process.env.NEXT_PUBLIC_POKEMON_API
+export default async function PokemonDetailsComponent({
+  name,
+  uploadDate,
+}: {
+  name: string;
+  uploadDate: string;
+}) {
+  const pokemonApi = process.env.NEXT_PUBLIC_POKEMON_API;
   const [pokemonRes, speciesRes] = await Promise.all([
     fetch(`${pokemonApi}/pokemon/${name}`),
     fetch(`${pokemonApi}/pokemon-species/${name}`),
@@ -20,11 +26,10 @@ export default async function PokemonDetailsComponent({ name, uploadDate }: { na
   const { flavor_text_entries, color } = await speciesRes.json();
 
   const englishFlavorTexts = flavor_text_entries.filter(
-    (entry: { language: { name: string }; flavor_text?: string }) =>
-      entry.language.name === "en"
+    (entry: { language: { name: string }; flavor_text?: string }) => entry.language.name === 'en'
   );
 
-  const description = englishFlavorTexts[8]?.flavor_text ?? "No description available.";
+  const description = englishFlavorTexts[8]?.flavor_text ?? 'No description available.';
 
   const details: PokemonDetails = {
     id,
@@ -42,10 +47,10 @@ export default async function PokemonDetailsComponent({ name, uploadDate }: { na
     image_url: sprites?.other?.dream_world?.front_default,
     name,
   };
-  
+
   return (
-    <div className='w-full flex justify-center p-10'>
-      <div className='max-w-7xl flex flex-col w-full gap-10'>
+    <div className="w-full flex justify-center">
+      <div className="max-w-7xl flex flex-col w-full gap-10">
         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-5">
           <div className="flex justify-center h-96 lg:h-auto relative">
             <Image
@@ -87,5 +92,5 @@ export default async function PokemonDetailsComponent({ name, uploadDate }: { na
         </Suspense>
       </div>
     </div>
-  )
+  );
 }
