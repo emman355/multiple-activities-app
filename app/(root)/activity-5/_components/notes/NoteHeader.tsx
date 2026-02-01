@@ -159,7 +159,7 @@ export default function NoteHeader({
               </div>
             )}
 
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex items-center gap-2  ml-0 sm:ml-auto">
               <Typography variant="small" className="text-xs text-muted-foreground">
                 {format(new Date(note.createdAt), 'MMM dd, yyyy • hh:mm a')}
               </Typography>

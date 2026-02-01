@@ -12,17 +12,16 @@ export default async function Note({ params }: { params: Promise<NotesDetailsPro
   const { noteId } = await params;
   const note = await getNoteById(noteId);
   return (
-    <div className="w-full items-center flex flex-col gap-12 p-10 bg-background min-h-screen">
-      <div className="max-w-7xl w-full flex flex-col gap-10 bg-card/70 shadow-md rounded-lg p-8">
-        {/* Back Button */}
-        <div className="w-full flex justify-start pt-4">
+    <div className="w-full items-center flex flex-col gap-12 min-h-screen">
+      <div className="max-w-7xl w-full flex flex-col gap-10">
+        <div className="w-full flex justify-start">
           <Link href="/activity-5">
             <Button variant="ghost" className="gap-2">
               ← Back to Notes Lists
             </Button>
           </Link>
         </div>
-
+        {/* Back Button */}
         <NotesDetails note={note} />
       </div>
     </div>

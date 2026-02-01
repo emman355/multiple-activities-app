@@ -73,7 +73,7 @@
   --muted-foreground: oklch(0.6268 0 0);
   --accent: oklch(0.3211 0 0);
   --accent-foreground: oklch(0.8109 0 0);
-  --destructive: oklch(44.873% 0.17911 28.62);
+  --destructive: oklch(62.716% 0.23731 27.576);
   --destructive-foreground: oklch(0.1797 0.0043 308.1928);
   --border: oklch(0.252 0 0);
   --input: oklch(0.252 0 0);
@@ -171,6 +171,25 @@
   --tracking-widest: calc(var(--tracking-normal) + 0.1em);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-foreground);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-foreground);
+}
+
 body {
   letter-spacing: var(--tracking-normal);
 }
@@ -189,87 +208,114 @@ body {
   outline: none;
 }
 
-/* Basic editor styles */
+/* Enhanced editor styles - Dark Theme with Syntax Highlighting */
 .tiptap {
+  /* Base typography */
+  color: var(--color-foreground);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  word-break: break-word;
+
   :first-child {
     margin-top: 0;
   }
 
-  /* List styles */
+  /* Paragraphs */
+  p {
+    margin: 1rem 0;
+  }
+
+  /* Links */
+  a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s ease;
+  }
+
+  a:hover {
+    opacity: 0.85;
+  }
+
+  /* ======================
+     Lists
+  ====================== */
   ul,
   ol {
-    padding-left: 1.5rem; /* consistent indentation */
+    padding-left: 1.5rem;
     margin: 1.25rem 0;
   }
 
   ul {
-    list-style-type: disc; /* default bullet */
+    list-style-type: disc;
   }
 
   ul ul {
-    list-style-type: circle; /* nested bullet */
+    list-style-type: circle;
   }
 
   ul ul ul {
-    list-style-type: square; /* deeper nesting */
+    list-style-type: square;
   }
 
   ol {
-    list-style-type: decimal; /* default numbering */
+    list-style-type: decimal;
   }
 
   ol ol {
-    list-style-type: lower-alpha; /* nested numbering */
+    list-style-type: lower-alpha;
   }
 
   ol ol ol {
-    list-style-type: lower-roman; /* deeper nesting */
+    list-style-type: lower-roman;
   }
 
   li {
-    margin: 0.4rem 0; /* spacing between items */
-    line-height: 1.5;
+    margin: 0.35rem 0;
+    line-height: 1.6;
   }
 
   li p {
-    margin: 0.25em 0; /* tighter spacing for paragraphs inside list items */
+    margin: 0.25em 0;
   }
 
-  /* Optional: custom marker color */
   ul li::marker,
   ol li::marker {
     color: var(--color-muted-foreground);
-    font-weight: bold;
+    font-weight: 600;
   }
 
-  /* Heading styles */
+  /* ======================
+     Headings
+  ====================== */
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    line-height: 1.1;
+    line-height: 1.15;
+    font-weight: 600;
     margin-top: 2.5rem;
-    text-wrap: pretty;
+    margin-bottom: 1rem;
+    text-wrap: balance;
   }
 
   h1,
   h2 {
     margin-top: 3.5rem;
-    margin-bottom: 1.5rem;
   }
 
   h1 {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 1.35rem;
   }
 
   h3 {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
 
   h4,
@@ -278,41 +324,348 @@ body {
     font-size: 1rem;
   }
 
-  /* Code and preformatted text styles */
+  /* ======================
+     Inline code
+  ====================== */
   code {
-    background-color: var(--color-muted);
-    border-radius: 0.4rem;
-    color: var(--color-foreground);
-    font-size: 0.85rem;
-    padding: 0.25em 0.3em;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 0.875em;
+    font-weight: 400;
+    background-color: rgba(244, 114, 182, 0.1);
+    color: #f472b6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    border: 1px solid rgba(244, 114, 182, 0.2);
   }
 
+  /* ======================
+     Code blocks - Dark Theme
+  ====================== */
   pre {
-    background: var(--color-secondary);
+    position: relative;
+    background: #0d1117;
     border-radius: 0.5rem;
-    color: var(--color-secondary-foreground);
-    font-family: 'JetBrainsMono', monospace;
     margin: 1.5rem 0;
-    padding: 0.75rem 1rem;
-
-    code {
-      background: none;
-      color: inherit;
-      font-size: 0.8rem;
-      padding: 0;
-    }
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    border: 1px solid #30363d;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    /* PASTE SAFETY */
+    white-space: pre; /* ← preserve pasted formatting */
+    tab-size: 2; /* ← consistent tabs */
+    -moz-tab-size: 2;
   }
 
+  pre code {
+    background: none !important;
+    color: #c9d1d9;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    display: block;
+    font-weight: 400;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    tab-size: 2;
+  }
+
+  /* Horizontal scrolling option */
+  pre.no-wrap code {
+    white-space: pre !important;
+    word-wrap: normal !important;
+  }
+
+  /* ======================
+     Manual Syntax Highlighting with hljs classes
+     (These work with highlight.js or Prism.js)
+  ====================== */
+
+  /* Comments */
+  pre code .hljs-comment,
+  pre code .hljs-quote,
+  pre code .comment,
+  pre code .token.comment,
+  pre code .token.prolog,
+  pre code .token.doctype,
+  pre code .token.cdata {
+    color: #8b949e;
+    font-style: italic;
+  }
+
+  /* Keywords */
+  pre code .hljs-keyword,
+  pre code .hljs-selector-tag,
+  pre code .hljs-literal,
+  pre code .hljs-section,
+  pre code .hljs-link,
+  pre code .keyword,
+  pre code .token.keyword,
+  pre code .token.atrule,
+  pre code .token.attr-value {
+    color: #ff7b72;
+    font-weight: 500;
+  }
+
+  /* Strings */
+  pre code .hljs-string,
+  pre code .hljs-title,
+  pre code .hljs-name,
+  pre code .hljs-type,
+  pre code .hljs-attribute,
+  pre code .hljs-symbol,
+  pre code .hljs-bullet,
+  pre code .hljs-addition,
+  pre code .hljs-variable,
+  pre code .hljs-template-tag,
+  pre code .hljs-template-variable,
+  pre code .string,
+  pre code .token.string,
+  pre code .token.attr-name,
+  pre code .token.char,
+  pre code .token.builtin,
+  pre code .token.inserted {
+    color: #a5d6ff;
+  }
+
+  /* Functions */
+  pre code .hljs-function,
+  pre code .hljs-title.function_,
+  pre code .hljs-built_in,
+  pre code .function,
+  pre code .token.function,
+  pre code .token.class-name {
+    color: #d2a8ff;
+  }
+
+  /* Numbers, Booleans */
+  pre code .hljs-number,
+  pre code .hljs-meta,
+  pre code .number,
+  pre code .token.number,
+  pre code .token.boolean,
+  pre code .token.constant {
+    color: #79c0ff;
+  }
+
+  /* Tags (HTML/JSX) */
+  pre code .hljs-tag,
+  pre code .tag,
+  pre code .token.tag {
+    color: #7ee787;
+  }
+
+  /* Operators */
+  pre code .hljs-operator,
+  pre code .operator,
+  pre code .token.operator,
+  pre code .token.entity,
+  pre code .token.url {
+    color: #ff7b72;
+  }
+
+  /* Punctuation */
+  pre code .hljs-punctuation,
+  pre code .punctuation,
+  pre code .token.punctuation {
+    color: #8b949e;
+  }
+
+  /* Variables, Properties */
+  pre code .hljs-variable,
+  pre code .hljs-property,
+  pre code .variable,
+  pre code .property,
+  pre code .token.property,
+  pre code .token.variable {
+    color: #ffa657;
+  }
+
+  /* Class, Type names */
+  pre code .hljs-class,
+  pre code .hljs-type,
+  pre code .class,
+  pre code .type {
+    color: #d2a8ff;
+  }
+
+  /* Regex */
+  pre code .hljs-regexp,
+  pre code .token.regex {
+    color: #ffa657;
+  }
+
+  /* Deleted */
+  pre code .hljs-deletion,
+  pre code .token.deleted {
+    color: #ffa198;
+  }
+
+  /* Important, Bold */
+  pre code .token.important,
+  pre code .token.bold {
+    font-weight: bold;
+  }
+
+  /* Italic */
+  pre code .token.italic {
+    font-style: italic;
+  }
+
+  /* JSX specific */
+  pre code .token.tag .token.tag {
+    color: #7ee787;
+  }
+
+  pre code .token.tag .token.punctuation {
+    color: #8b949e;
+  }
+
+  pre code .token.tag .token.attr-name {
+    color: #79c0ff;
+  }
+
+  pre code .token.tag .token.attr-value {
+    color: #a5d6ff;
+  }
+
+  /* ======================
+     Language label
+  ====================== */
+  pre[data-language]::before {
+    content: attr(data-language);
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8b949e;
+    opacity: 0.7;
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      sans-serif;
+    font-weight: 500;
+  }
+
+  /* ======================
+     Scrollbar
+  ====================== */
+  pre::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+
+  pre::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  pre::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 10px;
+    border: 2px solid #0d1117;
+  }
+
+  pre::-webkit-scrollbar-thumb:hover {
+    background: #484f58;
+  }
+
+  /* Selection */
+  pre ::selection {
+    background: rgba(56, 139, 253, 0.3);
+  }
+
+  /* ======================
+     Blockquotes
+  ====================== */
   blockquote {
-    border-left: 3px solid var(--color-border);
-    margin: 1.5rem 0;
-    padding-left: 1rem;
+    margin: 1.75rem 0;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid var(--color-primary);
     background-color: var(--color-muted);
+    color: var(--color-muted-foreground);
+    font-style: italic;
   }
 
+  blockquote p {
+    margin: 0.5rem 0;
+  }
+
+  /* ======================
+     Horizontal rule
+  ====================== */
   hr {
     border: none;
     border-top: 1px solid var(--color-border);
-    margin: 2rem 0;
+    margin: 3rem 0;
+  }
+
+  /* ======================
+     Images
+  ====================== */
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+  }
+
+  /* ======================
+     Tables
+  ====================== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.75rem 0;
+    font-size: 0.9rem;
+  }
+
+  th,
+  td {
+    border: 1px solid var(--color-border);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+  }
+
+  th {
+    background-color: var(--color-muted);
+    font-weight: 600;
+  }
+
+  /* ======================
+     Selection
+  ====================== */
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+
+  /* ======================
+     Inline code in text
+  ====================== */
+  p code,
+  li code,
+  td code,
+  blockquote code,
+  h1 code,
+  h2 code,
+  h3 code,
+  h4 code,
+  h5 code,
+  h6 code {
+    background-color: rgba(244, 114, 182, 0.1);
+    color: #f472b6;
+    padding: 0.15em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    border: 1px solid rgba(244, 114, 182, 0.2);
+    font-weight: 500;
   }
 }

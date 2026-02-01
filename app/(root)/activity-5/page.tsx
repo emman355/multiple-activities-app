@@ -8,7 +8,7 @@ import NotesPage from './_components/NotesPage';
 
 export default async function ActivityFive() {
   return (
-    <div className="w-full flex flex-col items-center gap-12 p-10">
+    <div className="w-full flex flex-col items-center gap-12">
       <Typography variant="h2">Markdown Notes</Typography>
       <div className="max-w-7xl flex flex-col w-full gap-10">
         <section>

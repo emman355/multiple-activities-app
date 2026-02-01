@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { getAuthSession } from "@/lib/auth/session";
-import { type JSONContent } from "@tiptap/react";
+import { getAuthSession } from '@/lib/auth/session';
+import { type JSONContent } from '@tiptap/react';
 
 export type Note = {
   id: number;
@@ -25,20 +25,18 @@ export async function getNotes() {
   // });
 
   try {
-    const session = await getAuthSession()
-    const backendRes = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notes`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${session?.access_token}`,
-          "Content-Type": "application/json",
-        },
-        next: {
-          tags: ["notes"],
-        },
-      }
-    );
+    const session = await getAuthSession();
+    const backendRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notes`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${session?.access_token}`,
+        'Content-Type': 'application/json',
+      },
+      next: {
+        revalidate: 30,
+        tags: ['notes'],
+      },
+    });
 
     if (!backendRes.ok) {
       const body = await backendRes.json().catch(() => ({}));
@@ -52,7 +50,7 @@ export async function getNotes() {
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Unknown error occurred while fetching notes");
+      throw new Error('Unknown error occurred while fetching notes');
     }
   }
 }

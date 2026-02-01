@@ -120,7 +120,6 @@ export default function ReviewCard({ foodReview }: FoodReviewProps) {
           </Typography>
         </div>
         <div className="flex items-center gap-2">
-          <Typography variant="caption">Ratings:</Typography>
           <Rating value={foodReview.rating} readOnly>
             {Array.from({ length: 5 }).map((_, index) => (
               <RatingButton className="text-amber-600" size={12} key={index} />
@@ -129,8 +128,9 @@ export default function ReviewCard({ foodReview }: FoodReviewProps) {
         </div>
 
         <div className="flex items-center gap-2">
-          <Typography variant="caption">Review:</Typography>
-          <Typography variant="small">{foodReview.review}</Typography>
+          <Typography variant="small" className="line-clamp-3">
+            {foodReview.review}
+          </Typography>
         </div>
       </div>
 

@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Edit, Eye } from 'lucide-react';
+import { Edit, Eye, FileText } from 'lucide-react';
 
 export default function NoteEditSkeleton() {
   return (
@@ -63,8 +63,8 @@ export default function NoteEditSkeleton() {
       {/* Content Editor Card Skeleton */}
       <Card className="overflow-hidden">
         <Tabs defaultValue="editor" className="w-full">
-          <div className="bg-secondary border-b px-6 py-3">
-            <TabsList className="grid w-xs grid-cols-2 bg-accent-foreground/80">
+          <div className="bg-accent border-b px-6 py-3">
+            <TabsList className="grid w-md grid-cols-3 bg-accent-foreground/80">
               <TabsTrigger value="editor" disabled>
                 <Edit className="h-4 w-4" />
                 Editor
@@ -72,6 +72,10 @@ export default function NoteEditSkeleton() {
               <TabsTrigger value="preview" disabled>
                 <Eye className="h-4 w-4" />
                 Preview
+              </TabsTrigger>
+              <TabsTrigger value="preview" disabled>
+                <FileText className="h-4 w-4" />
+                Raw Markdown
               </TabsTrigger>
             </TabsList>
           </div>
@@ -81,7 +85,12 @@ export default function NoteEditSkeleton() {
               <Skeleton className="h-4 w-16" />
               <div className="border rounded-lg p-4 space-y-3">
                 {/* Toolbar Skeleton */}
-                <div className="flex gap-2 border-b pb-2">
+                <div className="flex gap-4 border-b pb-2">
+                  <Skeleton className="h-8 w-8" />
+                  <Skeleton className="h-8 w-8" />
+                  <Skeleton className="h-8 w-8" />
+                  <Skeleton className="h-8 w-8" />
+                  <Skeleton className="h-8 w-8" />
                   <Skeleton className="h-8 w-8" />
                   <Skeleton className="h-8 w-8" />
                   <Skeleton className="h-8 w-8" />
