@@ -29,7 +29,7 @@ export default function EditReviewDialog({ handleSubmit, openEdit, setOpenEdit, 
     >
       <div className='flex flex-col lg:flex-row gap-8'>
         <div className='flex-1 flex-col flex items-center gap-4'>
-          <div className="h-70 relative w-full rounded-3xl bg-gray-800">
+          <div className="h-70 relative w-full rounded-3xl bg-card">
             <Image
               alt={`${pokemonName}-sprite`}
               src={imgUrl}

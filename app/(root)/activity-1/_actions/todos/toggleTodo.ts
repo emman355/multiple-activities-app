@@ -1,17 +1,17 @@
-"use server";
+'use server';
 
-import { getAuthSession } from "@/lib/auth/session";
-import { revalidatePath } from "next/cache";
+import { getAuthSession } from '@/lib/auth/session';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export async function toggleTodo({ id, done }: { id: number; done: boolean }) {
   try {
     const session = await getAuthSession();
 
     const backendRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/todos/${id}`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        Authorization: `Bearer ${session.access_token}`,
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${session?.access_token}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ done }),
     });
@@ -21,12 +21,13 @@ export async function toggleTodo({ id, done }: { id: number; done: boolean }) {
       throw new Error(body.error || `Failed to toggle todo: ${backendRes.statusText}`);
     }
 
-    revalidatePath("/activity-1");
+    revalidateTag('todos', 'max');
+    revalidatePath('/activity-1');
   } catch (err) {
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Unknown error occurred while toggling todo");
+      throw new Error('Unknown error occurred while toggling todo');
     }
   }
 }

@@ -61,7 +61,7 @@ export default function PokemonList({ pokemonList }: { pokemonList: PokemonWithU
               query: { uploadDate: pokemon.upload_date.toISOString() }, // <-- this is a Date
             }}
             key={pokemon.id}
-            className="flex flex-col rounded-lg border gap-5 border-gray-800 p-4 shadow-sm hover:shadow-md transition"
+            className="flex flex-col rounded-lg border gap-5 border-border p-4 shadow-sm hover:shadow-md transition"
           >
             <div className="flex justify-center h-40 relative">
               <Image
@@ -79,7 +79,7 @@ export default function PokemonList({ pokemonList }: { pokemonList: PokemonWithU
             <div className="flex justify-between">
               <div className="flex flex-col gap-1">
                 <Typography variant="caption">{capitalizeFirst(pokemon.name)}</Typography>
-                <Typography variant="caption" className="text-gray-600">{formatDateToDMY(pokemon.upload_date)}</Typography>
+                <Typography variant="caption" className="text-muted-foreground">{formatDateToDMY(pokemon.upload_date)}</Typography>
               </div>
               <Typography variant="caption">#{formatPokemonId(Number(pokemon.id))}</Typography>
             </div>

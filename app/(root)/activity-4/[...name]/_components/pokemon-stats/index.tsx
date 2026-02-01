@@ -1,14 +1,14 @@
-import { Progress } from "@/components/ui/progress";
-import Typography from "@/components/ui/typography";
-import { NormalizedStat } from "../../../types";
+import { Progress } from '@/components/ui/progress';
+import Typography from '@/components/ui/typography';
+import { NormalizedStat } from '../../../types';
 
 const STAT_COLORS: Record<string, string> = {
-  hp: "bg-red-500",
-  attack: "bg-orange-500",
-  defense: "bg-yellow-500",
-  "special-attack": "bg-blue-500",
-  "special-defense": "bg-green-500",
-  speed: "bg-pink-500",
+  hp: 'bg-destructive',
+  attack: 'bg-[#ea580c]',
+  defense: 'bg-[#fbbf24]',
+  'special-attack': 'bg-primary',
+  'special-defense': 'bg-secondary',
+  speed: 'bg-accent',
 };
 
 export default function PokemonStats({ stats }: { stats: NormalizedStat[] }) {
@@ -19,8 +19,12 @@ export default function PokemonStats({ stats }: { stats: NormalizedStat[] }) {
         {stats.map(({ name, base }) => (
           <div key={name} className="grid grid-cols-2 lg:grid-cols-2 gap-4 items-center">
             <div className="flex flex-row justify-between mb-1 items-center">
-              <Typography variant="small" className="capitalize text-sm font-medium">{name.replace("-", " ")}</Typography>
-              <Typography variant="small" className="font-mono">{base}</Typography>
+              <Typography variant="small" className="capitalize text-sm font-medium">
+                {name.replace('-', ' ')}
+              </Typography>
+              <Typography variant="small" className="font-mono">
+                {base}
+              </Typography>
             </div>
             <Progress
               value={base}

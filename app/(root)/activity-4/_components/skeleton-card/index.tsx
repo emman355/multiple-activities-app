@@ -22,7 +22,7 @@ export default function PokemonListSkeleton() {
         {Array.from({ length: 15 }).map((_, i) => (
           <div
             key={i}
-            className="rounded-lg border border-gray-800 p-4 shadow-sm"
+            className="rounded-lg border border-border p-4 shadow-sm"
           >
             {/* Image / icon */}
             <div className="flex justify-center">

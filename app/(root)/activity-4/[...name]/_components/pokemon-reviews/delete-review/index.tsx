@@ -1,12 +1,12 @@
-import React from "react";
-import Image from "next/image";
-import Typography from "@/components/ui/typography";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { CustomDialog } from "@/app/(root)/_components/custom-dialog";
-import { PokemonReview } from "@/app/(root)/activity-4/types";
-import { capitalizeFirst, formatPokemonId } from "@/lib/utils";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import React from 'react';
+import Image from 'next/image';
+import Typography from '@/components/ui/typography';
+import { DialogClose, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { CustomDialog } from '@/app/(root)/_components/custom-dialog';
+import { PokemonReview } from '@/app/(root)/activity-4/types';
+import { capitalizeFirst, formatPokemonId } from '@/lib/utils';
+import { RiDeleteBin6Line } from 'react-icons/ri';
 
 type DeleteDialogProps = {
   openDelete: boolean;
@@ -30,7 +30,7 @@ export default function DeleteReviewDialog({
       open={openDelete}
       setOpen={setOpenDelete}
       titleStyles="text-2xl font-bold"
-      descriptionStyles="text-base text-gray-400"
+      descriptionStyles="text-base text-muted-foreground"
       title={`Delete your review for ${capitalizeFirst(pokemonReview.pokemonName)}`}
       description="This action cannot be undone."
       className="sm:max-w-[600px] gap-8 p-8"
@@ -43,26 +43,26 @@ export default function DeleteReviewDialog({
             alt={pokemonReview.pokemonName}
             width={96}
             height={96}
-            className="rounded-md object-cover border border-gray-700 p-5"
+            className="rounded-md object-cover border border-border p-5"
           />
           <div className="flex flex-col">
             <Typography variant="subtitle" className="font-semibold">
               {capitalizeFirst(pokemonReview.pokemonName)}
             </Typography>
-            <Typography variant="caption" className="text-gray-400">
+            <Typography variant="caption" className="text-muted-foreground">
               #{formatPokemonId(Number(pokemonReview.pokemonId))}
             </Typography>
           </div>
         </div>
 
         {/* Warning message */}
-        <div className="flex items-start gap-3 bg-red-950/40 border border-red-700 rounded-md p-4">
-          <RiDeleteBin6Line className="text-red-500 mt-1" size={20} />
+        <div className="flex items-start gap-3 bg-destructive/20 border border-destructive rounded-md p-4">
+          <RiDeleteBin6Line className="text-destructive mt-1" size={20} />
           <div className="flex flex-col">
-            <Typography variant="small" className="text-red-400 font-medium">
+            <Typography variant="small" className="text-destructive font-medium">
               This action cannot be undone.
             </Typography>
-            <Typography variant="small" className="text-red-300">
+            <Typography variant="small" className="text-destructive/90">
               Are you sure you want to permanently delete this review?
             </Typography>
           </div>
@@ -71,7 +71,11 @@ export default function DeleteReviewDialog({
 
       <DialogFooter className="gap-3 mt-6">
         <DialogClose asChild>
-          <Button size="lg" variant="outline" className="hover:bg-gray-800">
+          <Button
+            size="lg"
+            variant="outline"
+            className="hover:bg-accent hover:text-accent-foreground"
+          >
             Cancel
           </Button>
         </DialogClose>
@@ -88,7 +92,7 @@ export default function DeleteReviewDialog({
               Deleting...
             </>
           ) : (
-            "Delete Review"
+            'Delete Review'
           )}
         </Button>
       </DialogFooter>

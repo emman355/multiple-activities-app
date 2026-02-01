@@ -1,33 +1,33 @@
-'use client'
+'use client';
 
-import { Button } from '@/components/ui/button'
-import Typography from '@/components/ui/typography'
-import { formatFileSize } from '@/lib/utils'
-import Image from 'next/image'
-import { MdOutlineModeEditOutline } from 'react-icons/md'
-import { RiDeleteBin6Line } from 'react-icons/ri'
-import { Photo } from '../../../types'
-import { useEffect, useState, useTransition } from 'react'
-import { Skeleton } from '@/components/ui/skeleton'
-import EditDialog from '../../edit-dialog'
-import DeleteDialog from '../../delete-dialog'
-import { removeDrivePhoto } from '../../../_action/removeDrivePhoto'
-import { updateDrivePhoto } from '../../../_action/updateDrivePhoto'
-import { DriveLiteAddFormValues } from '@/lib/schema/drive-lite-photo'
-import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button';
+import Typography from '@/components/ui/typography';
+import { formatFileSize } from '@/lib/utils';
+import Image from 'next/image';
+import { MdOutlineModeEditOutline } from 'react-icons/md';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+import { Photo } from '../../../types';
+import { useEffect, useState, useTransition } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+import EditDialog from '../../edit-dialog';
+import DeleteDialog from '../../delete-dialog';
+import { removeDrivePhoto } from '../../../_action/removeDrivePhoto';
+import { updateDrivePhoto } from '../../../_action/updateDrivePhoto';
+import { DriveLiteAddFormValues } from '@/lib/schema/drive-lite-photo';
+import { useRouter } from 'next/navigation';
 
 type DetailsItemProps = {
-  photo: Photo
-}
+  photo: Photo;
+};
 
 export default function DetailsItem({ photo }: DetailsItemProps) {
   const [openEdit, setOpenEdit] = useState(false);
-  const [isPendingEdit, startTransitionEdit] = useTransition()
-  const [openDelete, setOpenDelete] = useState(false)
-  const [isPendingDelete, startTransitionDelete] = useTransition()
+  const [isPendingEdit, startTransitionEdit] = useTransition();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [isPendingDelete, startTransitionDelete] = useTransition();
   const [loaded, setLoaded] = useState(false);
 
-  const router = useRouter();   // 👈 initialize router
+  const router = useRouter(); // 👈 initialize router
 
   const handleDeletePhoto = async () => {
     startTransitionDelete(async () => {
@@ -35,7 +35,7 @@ export default function DetailsItem({ photo }: DetailsItemProps) {
         await removeDrivePhoto(photo.id);
         // close only after success
         setOpenDelete(false);
-        router.push('/activity-2');   // 👈 redirect after success
+        router.push('/activity-2'); // 👈 redirect after success
       } catch (error) {
         // Rethrow so Next.js error.tsx catches it
         if (error instanceof Error) {
@@ -44,8 +44,8 @@ export default function DetailsItem({ photo }: DetailsItemProps) {
           throw new Error(`Failed to delete review: ${error}`);
         }
       }
-    })
-  }
+    });
+  };
 
   const handleEditPhotoDetails = async (data: DriveLiteAddFormValues) => {
     startTransitionEdit(async () => {
@@ -55,9 +55,9 @@ export default function DetailsItem({ photo }: DetailsItemProps) {
           file: data.photo ?? undefined, // 👈 optional file
           title: data.title,
           description: data.description,
-        })
+        });
 
-        setOpenEdit(false) // close edit dialog after submit
+        setOpenEdit(false); // close edit dialog after submit
       } catch (error) {
         // Rethrow so Next.js error.tsx catches it
         if (error instanceof Error) {
@@ -66,8 +66,8 @@ export default function DetailsItem({ photo }: DetailsItemProps) {
           throw new Error(`Failed to edit review: ${error}`);
         }
       }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -84,12 +84,9 @@ export default function DetailsItem({ photo }: DetailsItemProps) {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-
         {/* Image */}
-        <div className="relative w-full h-75 md:h-90 lg:h-full rounded-lg border border-gray-700 overflow-hidden shadow-md">
-          {!loaded && (
-            <Skeleton className="absolute inset-0 bg-gray-800 rounded-xs" />
-          )}
+        <div className="relative w-full h-75 md:h-90 lg:h-full rounded-lg border border-border overflow-hidden shadow-md">
+          {!loaded && <Skeleton className="absolute inset-0 bg-muted rounded-xs" />}
           <Image
             alt={photo.photoName}
             src={photo.photoUrl}
@@ -118,31 +115,62 @@ export default function DetailsItem({ photo }: DetailsItemProps) {
           {/* Metadata fields */}
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <Typography variant="subtitle" className="font-medium text-foreground">File Name</Typography>
-              <Typography variant="body1" className="text-muted-foreground">{photo.photoName}</Typography>
-              <Typography variant="small" className="text-xs text-muted-foreground">Unique identifier for this photo</Typography>
+              <Typography variant="subtitle" className="font-medium text-foreground">
+                File Name
+              </Typography>
+              <Typography variant="body1" className="text-muted-foreground">
+                {photo.photoName}
+              </Typography>
+              <Typography variant="small" className="text-xs text-muted-foreground">
+                Unique identifier for this photo
+              </Typography>
             </div>
             <div>
-              <Typography variant="subtitle" className="font-medium text-foreground">Created</Typography>
-              <Typography variant="body1" className="text-muted-foreground">{new Date(photo.createdAt).toLocaleDateString()}</Typography>
-              <Typography variant="small" className="text-xs text-muted-foreground">Original upload date</Typography>
+              <Typography variant="subtitle" className="font-medium text-foreground">
+                Created
+              </Typography>
+              <Typography variant="body1" className="text-muted-foreground">
+                {new Date(photo.createdAt).toLocaleDateString()}
+              </Typography>
+              <Typography variant="small" className="text-xs text-muted-foreground">
+                Original upload date
+              </Typography>
             </div>
             <div>
-              <Typography variant="subtitle" className="font-medium text-foreground">Modified</Typography>
-              <Typography variant="body1" className="text-muted-foreground">{new Date(photo.updatedAt).toLocaleDateString()}</Typography>
-              <Typography variant="small" className="text-xs text-muted-foreground">Last updated</Typography>
+              <Typography variant="subtitle" className="font-medium text-foreground">
+                Modified
+              </Typography>
+              <Typography variant="body1" className="text-muted-foreground">
+                {new Date(photo.updatedAt).toLocaleDateString()}
+              </Typography>
+              <Typography variant="small" className="text-xs text-muted-foreground">
+                Last updated
+              </Typography>
             </div>
             <div>
-              <Typography variant="subtitle" className="font-medium text-foreground">File Size</Typography>
-              <Typography variant="body1" className="text-muted-foreground">{formatFileSize(photo.fileSize)}</Typography>
+              <Typography variant="subtitle" className="font-medium text-foreground">
+                File Size
+              </Typography>
+              <Typography variant="body1" className="text-muted-foreground">
+                {formatFileSize(photo.fileSize)}
+              </Typography>
             </div>
             <div>
-              <Typography variant="subtitle" className="font-medium text-foreground">Type</Typography>
-              <Typography variant="body1" className="text-muted-foreground">{photo.fileType}</Typography>
+              <Typography variant="subtitle" className="font-medium text-foreground">
+                Type
+              </Typography>
+              <Typography variant="body1" className="text-muted-foreground">
+                {photo.fileType}
+              </Typography>
             </div>
             <div>
-              <Typography variant="subtitle" className="font-medium text-foreground">Dimensions</Typography>
-              <Typography variant="body1" className="text-muted-foreground">{`${photo.height} x ${photo.width}`}</Typography>
+              <Typography variant="subtitle" className="font-medium text-foreground">
+                Dimensions
+              </Typography>
+              <Typography
+                variant="body1"
+                className="text-muted-foreground"
+              >{`${photo.height} x ${photo.width}`}</Typography>
             </div>
           </div>
 
@@ -151,9 +179,9 @@ export default function DetailsItem({ photo }: DetailsItemProps) {
             <Typography variant="h4" className="font-semibold text-foreground mb-2">
               Description
             </Typography>
-            <div className="bg-gray-900/40 p-4 rounded-md">
+            <div className="bg-background/40 p-4 rounded-md">
               <Typography variant="body1" className="text-muted-foreground leading-relaxed">
-                {photo.description || "No description provided for this photo."}
+                {photo.description || 'No description provided for this photo.'}
               </Typography>
             </div>
           </div>
@@ -164,12 +192,23 @@ export default function DetailsItem({ photo }: DetailsItemProps) {
               Actions
             </Typography>
             <div className="flex gap-4 flex-col md:flex-row">
-              <Button variant="outline" size="lg" className="w-full" aria-label="Edit photo details" onClick={() => setOpenEdit(true)}
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full"
+                aria-label="Edit photo details"
+                onClick={() => setOpenEdit(true)}
               >
                 <MdOutlineModeEditOutline className="mr-2 h-4 w-4" />
                 Edit Details
               </Button>
-              <Button variant="destructive" size="lg" className="w-full" aria-label="Delete photo" onClick={() => setOpenDelete(true)}>
+              <Button
+                variant="destructive"
+                size="lg"
+                className="w-full"
+                aria-label="Delete photo"
+                onClick={() => setOpenDelete(true)}
+              >
                 <RiDeleteBin6Line className="mr-2 h-4 w-4" />
                 Delete Photo
               </Button>
@@ -190,7 +229,8 @@ export default function DetailsItem({ photo }: DetailsItemProps) {
         handleDeletePhoto={handleDeletePhoto}
         isPendingDelete={isPendingDelete}
         openDelete={openDelete}
-        setOpenDelete={setOpenDelete} />
+        setOpenDelete={setOpenDelete}
+      />
     </div>
-  )
+  );
 }

@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import Typography from '@/components/ui/typography'
 import { FaPlusCircle } from "react-icons/fa"
 import { useState, useTransition } from 'react'
 import { CustomDialog } from '@/app/(root)/_components/custom-dialog'
@@ -25,13 +24,11 @@ export default function AddNewPhoto() {
       {/* Trigger Button */}
       <Button
         aria-label="Add new photo"
-        className="bg-cyan-800 hover:bg-cyan-900 flex items-center gap-2"
+        className="flex items-center gap-2"
         onClick={() => setIsOpen(true)}
       >
         <FaPlusCircle />
-        <Typography variant="small" className="font-semibold">
           Add New Photo
-        </Typography>
       </Button>
 
       {/* Dialog */}

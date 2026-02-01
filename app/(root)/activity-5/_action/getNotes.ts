@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { type JSONContent } from "@tiptap/react";
-import { cacheTag } from "next/cache"; 
+import { getAuthSession } from '@/lib/auth/session';
+import { type JSONContent } from '@tiptap/react';
 
 export type Note = {
   id: number;
@@ -13,31 +13,30 @@ export type Note = {
   updatedAt: string;
 };
 
-export async function getNotes(accessToken: string) {
-  "use cache";
-  
+export async function getNotes() {
   //!for future use
   //? Set cache lifetime to 5 minutes
+  // "use cache";
+  // cacheTag("notes");
   // cacheLife({
   //   stale: 300,      // Stale after 5 minutes
   //   revalidate: 600, // Revalidate after 10 minutes
   //   expire: 3600,    // Expire after 1 hour
   // });
-  
-  // Add cache tags for targeted revalidation
-  cacheTag("notes");
 
   try {
-    const backendRes = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notes`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const session = await getAuthSession();
+    const backendRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notes`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${session?.access_token}`,
+        'Content-Type': 'application/json',
+      },
+      next: {
+        revalidate: 30,
+        tags: ['notes'],
+      },
+    });
 
     if (!backendRes.ok) {
       const body = await backendRes.json().catch(() => ({}));
@@ -51,7 +50,7 @@ export async function getNotes(accessToken: string) {
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Unknown error occurred while fetching notes");
+      throw new Error('Unknown error occurred while fetching notes');
     }
   }
 }

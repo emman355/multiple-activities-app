@@ -7,7 +7,7 @@ export default function ReviewsSkeleton() {
       <Skeleton className="h-5 w-32" /> {/* "User Reviews" label */}
 
       {[1, 2].map((i) => (
-        <div key={i} className='flex flex-col gap-4 border border-gray-800 rounded-4xl p-6'>
+        <div key={i} className='flex flex-col gap-4 border border-border rounded-4xl p-6'>
           <div className="flex gap-3">
             <Skeleton className="h-9 w-9 rounded-full" /> {/* avatar */}
             <div className="flex-1 space-y-2">

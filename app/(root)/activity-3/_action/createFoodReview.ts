@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { getAuthSession } from "@/lib/auth/session";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { getAuthSession } from '@/lib/auth/session';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export async function createFoodReview({
   photoName,
@@ -20,19 +20,22 @@ export async function createFoodReview({
     const session = await getAuthSession();
 
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("photoName", photoName);
-    formData.append("location", location);
-    formData.append("rating", String(rating));
-    formData.append("review", review);
+    formData.append('file', file);
+    formData.append('photoName', photoName);
+    formData.append('location', location);
+    formData.append('rating', String(rating));
+    formData.append('review', review);
 
-    const backendRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/food-review/reviews`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${session.access_token}`,
-      },
-      body: formData,
-    });
+    const backendRes = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/food-review/reviews`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+        body: formData,
+      }
+    );
 
     if (!backendRes.ok) {
       const body = await backendRes.json().catch(() => ({}));
@@ -42,15 +45,15 @@ export async function createFoodReview({
     const created = await backendRes.json();
 
     // ✅ revalidate both path and tag
-    revalidatePath("/activity-3");
-    revalidateTag("foodReview", "max");
+    revalidatePath('/activity-3');
+    revalidateTag('foodReview', 'max');
 
     return created;
   } catch (err) {
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Unknown error occurred while adding review");
+      throw new Error('Unknown error occurred while adding review');
     }
   }
 }

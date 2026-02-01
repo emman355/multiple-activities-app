@@ -1,19 +1,18 @@
 'use client';
 
-import { Button } from '@/components/ui/button'
-import { useState, useTransition } from 'react'
+import { Button } from '@/components/ui/button';
+import { useState, useTransition } from 'react';
 import FoodReviewForm, { FoodReviewFormValues } from '../../_components/food-review-form';
 import { createFoodReview } from '../../_action/createFoodReview';
 import { CustomDialog } from '@/app/(root)/_components/custom-dialog';
 import { FaPlusCircle } from 'react-icons/fa';
-import Typography from '@/components/ui/typography';
 
 export default function UploadFoodReview() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isPending, startTransition] = useTransition()
+  const [isOpen, setIsOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (data: FoodReviewFormValues) => {
-    if (!data.photo) return
+    if (!data.photo) return;
     startTransition(async () => {
       await createFoodReview({
         file: data.photo!,
@@ -21,23 +20,21 @@ export default function UploadFoodReview() {
         location: data.restourant,
         rating: data.rating,
         review: data.review,
-      })
-      setIsOpen(false) // ✅ close dialog after submit
-    })
-  }
+      });
+      setIsOpen(false); // ✅ close dialog after submit
+    });
+  };
 
   return (
     <div>
       {/* Trigger Button */}
       <Button
         aria-label="Add new photo"
-        className="bg-gray-700 hover:bg-gray-500 flex items-center gap-2"
+        className="flex items-center gap-2"
         onClick={() => setIsOpen(true)}
       >
         <FaPlusCircle />
-        <Typography variant="small" className="font-semibold">
-          Add New Food Photo
-        </Typography>
+        Add New Food Photo
       </Button>
 
       {/* Dialog */}
@@ -46,7 +43,8 @@ export default function UploadFoodReview() {
         setOpen={setIsOpen}
         className="sm:max-w-[600px] gap-6 p-8 font-(family-name:--font-geist-sans)"
         title="Share Your Food Experience"
-        description="Upload a photo and tell us what you think about your latest meal.">
+        description="Upload a photo and tell us what you think about your latest meal."
+      >
         <FoodReviewForm
           defaultValues={{
             food: '',
@@ -61,5 +59,5 @@ export default function UploadFoodReview() {
         />
       </CustomDialog>
     </div>
-  )
+  );
 }

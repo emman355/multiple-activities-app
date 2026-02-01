@@ -1,0 +1,671 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.2101 0.0318 264.6645);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2101 0.0318 264.6645);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2101 0.0318 264.6645);
+  --primary: oklch(0.6716 0.1368 48.513);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.536 0.0398 196.028);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.967 0.0029 264.5419);
+  --muted-foreground: oklch(0.551 0.0234 264.3637);
+  --accent: oklch(0.9491 0 0);
+  --accent-foreground: oklch(0.2101 0.0318 264.6645);
+  --destructive: oklch(0.6368 0.2078 25.3313);
+  --destructive-foreground: oklch(0.9851 0 0);
+  --border: oklch(0.9276 0.0058 264.5313);
+  --input: oklch(0.9276 0.0058 264.5313);
+  --ring: oklch(0.6716 0.1368 48.513);
+  --chart-1: oklch(0.594 0.0443 196.0233);
+  --chart-2: oklch(0.7214 0.1337 49.9802);
+  --chart-3: oklch(0.8721 0.0864 68.5474);
+  --chart-4: oklch(0.6268 0 0);
+  --chart-5: oklch(0.683 0 0);
+  --sidebar: oklch(0.967 0.0029 264.5419);
+  --sidebar-foreground: oklch(0.2101 0.0318 264.6645);
+  --sidebar-primary: oklch(0.6716 0.1368 48.513);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(1 0 0);
+  --sidebar-accent-foreground: oklch(0.2101 0.0318 264.6645);
+  --sidebar-border: oklch(0.9276 0.0058 264.5313);
+  --sidebar-ring: oklch(0.6716 0.1368 48.513);
+  --font-sans: Geist, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Geist Mono, monospace;
+  --radius: 0.75rem;
+  --shadow-x: 0px;
+  --shadow-y: 1px;
+  --shadow-blur: 4px;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.05;
+  --shadow-color: #000000;
+  --shadow-2xs: 0px 1px 4px 0px hsl(0 0% 0% / 0.03);
+  --shadow-xs: 0px 1px 4px 0px hsl(0 0% 0% / 0.03);
+  --shadow-sm: 0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 1px 2px -1px hsl(0 0% 0% / 0.05);
+  --shadow: 0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 1px 2px -1px hsl(0 0% 0% / 0.05);
+  --shadow-md: 0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 2px 4px -1px hsl(0 0% 0% / 0.05);
+  --shadow-lg: 0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 4px 6px -1px hsl(0 0% 0% / 0.05);
+  --shadow-xl: 0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 8px 10px -1px hsl(0 0% 0% / 0.05);
+  --shadow-2xl: 0px 1px 4px 0px hsl(0 0% 0% / 0.13);
+  --tracking-normal: 0rem;
+  --spacing: 0.25rem;
+}
+
+.dark {
+  --background: oklch(0.1797 0.0043 308.1928);
+  --foreground: oklch(0.8109 0 0);
+  --card: oklch(0.1822 0 0);
+  --card-foreground: oklch(0.8109 0 0);
+  --popover: oklch(0.1797 0.0043 308.1928);
+  --popover-foreground: oklch(0.8109 0 0);
+  --primary: oklch(0.7214 0.1337 49.9802);
+  --primary-foreground: oklch(0.1797 0.0043 308.1928);
+  --secondary: oklch(0.594 0.0443 196.0233);
+  --secondary-foreground: oklch(0.1797 0.0043 308.1928);
+  --muted: oklch(0.252 0 0);
+  --muted-foreground: oklch(0.6268 0 0);
+  --accent: oklch(0.3211 0 0);
+  --accent-foreground: oklch(0.8109 0 0);
+  --destructive: oklch(62.716% 0.23731 27.576);
+  --destructive-foreground: oklch(0.1797 0.0043 308.1928);
+  --border: oklch(0.252 0 0);
+  --input: oklch(0.252 0 0);
+  --ring: oklch(0.7214 0.1337 49.9802);
+  --chart-1: oklch(0.594 0.0443 196.0233);
+  --chart-2: oklch(0.7214 0.1337 49.9802);
+  --chart-3: oklch(0.8721 0.0864 68.5474);
+  --chart-4: oklch(0.6268 0 0);
+  --chart-5: oklch(0.683 0 0);
+  --sidebar: oklch(0.1822 0 0);
+  --sidebar-foreground: oklch(0.8109 0 0);
+  --sidebar-primary: oklch(0.7214 0.1337 49.9802);
+  --sidebar-primary-foreground: oklch(0.1797 0.0043 308.1928);
+  --sidebar-accent: oklch(0.3211 0 0);
+  --sidebar-accent-foreground: oklch(0.8109 0 0);
+  --sidebar-border: oklch(0.252 0 0);
+  --sidebar-ring: oklch(0.7214 0.1337 49.9802);
+  --font-sans: Geist, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Geist Mono, monospace;
+  --radius: 0.75rem;
+  --shadow-x: 0px;
+  --shadow-y: 1px;
+  --shadow-blur: 4px;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.05;
+  --shadow-color: #000000;
+  --shadow-2xs: 0px 1px 4px 0px hsl(0 0% 0% / 0.03);
+  --shadow-xs: 0px 1px 4px 0px hsl(0 0% 0% / 0.03);
+  --shadow-sm: 0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 1px 2px -1px hsl(0 0% 0% / 0.05);
+  --shadow: 0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 1px 2px -1px hsl(0 0% 0% / 0.05);
+  --shadow-md: 0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 2px 4px -1px hsl(0 0% 0% / 0.05);
+  --shadow-lg: 0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 4px 6px -1px hsl(0 0% 0% / 0.05);
+  --shadow-xl: 0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 8px 10px -1px hsl(0 0% 0% / 0.05);
+  --shadow-2xl: 0px 1px 4px 0px hsl(0 0% 0% / 0.13);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+
+  --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
+  --tracking-tight: calc(var(--tracking-normal) - 0.025em);
+  --tracking-normal: var(--tracking-normal);
+  --tracking-wide: calc(var(--tracking-normal) + 0.025em);
+  --tracking-wider: calc(var(--tracking-normal) + 0.05em);
+  --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-foreground);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-foreground);
+}
+
+body {
+  letter-spacing: var(--tracking-normal);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    letter-spacing: var(--tracking-normal);
+  }
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+/* Enhanced editor styles - Dark Theme with Syntax Highlighting */
+.tiptap {
+  /* Base typography */
+  color: var(--color-foreground);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  word-break: break-word;
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* Paragraphs */
+  p {
+    margin: 1rem 0;
+  }
+
+  /* Links */
+  a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s ease;
+  }
+
+  a:hover {
+    opacity: 0.85;
+  }
+
+  /* ======================
+     Lists
+  ====================== */
+  ul,
+  ol {
+    padding-left: 1.5rem;
+    margin: 1.25rem 0;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ul ul {
+    list-style-type: circle;
+  }
+
+  ul ul ul {
+    list-style-type: square;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ol ol {
+    list-style-type: lower-alpha;
+  }
+
+  ol ol ol {
+    list-style-type: lower-roman;
+  }
+
+  li {
+    margin: 0.35rem 0;
+    line-height: 1.6;
+  }
+
+  li p {
+    margin: 0.25em 0;
+  }
+
+  ul li::marker,
+  ol li::marker {
+    color: var(--color-muted-foreground);
+    font-weight: 600;
+  }
+
+  /* ======================
+     Headings
+  ====================== */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.15;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    text-wrap: balance;
+  }
+
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  /* ======================
+     Inline code
+  ====================== */
+  code {
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 0.875em;
+    font-weight: 400;
+    background-color: rgba(244, 114, 182, 0.1);
+    color: #f472b6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    border: 1px solid rgba(244, 114, 182, 0.2);
+  }
+
+  /* ======================
+     Code blocks - Dark Theme
+  ====================== */
+  pre {
+    position: relative;
+    background: #0d1117;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    border: 1px solid #30363d;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    /* PASTE SAFETY */
+    white-space: pre; /* ← preserve pasted formatting */
+    tab-size: 2; /* ← consistent tabs */
+    -moz-tab-size: 2;
+  }
+
+  pre code {
+    background: none !important;
+    color: #c9d1d9;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    display: block;
+    font-weight: 400;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    tab-size: 2;
+  }
+
+  /* Horizontal scrolling option */
+  pre.no-wrap code {
+    white-space: pre !important;
+    word-wrap: normal !important;
+  }
+
+  /* ======================
+     Manual Syntax Highlighting with hljs classes
+     (These work with highlight.js or Prism.js)
+  ====================== */
+
+  /* Comments */
+  pre code .hljs-comment,
+  pre code .hljs-quote,
+  pre code .comment,
+  pre code .token.comment,
+  pre code .token.prolog,
+  pre code .token.doctype,
+  pre code .token.cdata {
+    color: #8b949e;
+    font-style: italic;
+  }
+
+  /* Keywords */
+  pre code .hljs-keyword,
+  pre code .hljs-selector-tag,
+  pre code .hljs-literal,
+  pre code .hljs-section,
+  pre code .hljs-link,
+  pre code .keyword,
+  pre code .token.keyword,
+  pre code .token.atrule,
+  pre code .token.attr-value {
+    color: #ff7b72;
+    font-weight: 500;
+  }
+
+  /* Strings */
+  pre code .hljs-string,
+  pre code .hljs-title,
+  pre code .hljs-name,
+  pre code .hljs-type,
+  pre code .hljs-attribute,
+  pre code .hljs-symbol,
+  pre code .hljs-bullet,
+  pre code .hljs-addition,
+  pre code .hljs-variable,
+  pre code .hljs-template-tag,
+  pre code .hljs-template-variable,
+  pre code .string,
+  pre code .token.string,
+  pre code .token.attr-name,
+  pre code .token.char,
+  pre code .token.builtin,
+  pre code .token.inserted {
+    color: #a5d6ff;
+  }
+
+  /* Functions */
+  pre code .hljs-function,
+  pre code .hljs-title.function_,
+  pre code .hljs-built_in,
+  pre code .function,
+  pre code .token.function,
+  pre code .token.class-name {
+    color: #d2a8ff;
+  }
+
+  /* Numbers, Booleans */
+  pre code .hljs-number,
+  pre code .hljs-meta,
+  pre code .number,
+  pre code .token.number,
+  pre code .token.boolean,
+  pre code .token.constant {
+    color: #79c0ff;
+  }
+
+  /* Tags (HTML/JSX) */
+  pre code .hljs-tag,
+  pre code .tag,
+  pre code .token.tag {
+    color: #7ee787;
+  }
+
+  /* Operators */
+  pre code .hljs-operator,
+  pre code .operator,
+  pre code .token.operator,
+  pre code .token.entity,
+  pre code .token.url {
+    color: #ff7b72;
+  }
+
+  /* Punctuation */
+  pre code .hljs-punctuation,
+  pre code .punctuation,
+  pre code .token.punctuation {
+    color: #8b949e;
+  }
+
+  /* Variables, Properties */
+  pre code .hljs-variable,
+  pre code .hljs-property,
+  pre code .variable,
+  pre code .property,
+  pre code .token.property,
+  pre code .token.variable {
+    color: #ffa657;
+  }
+
+  /* Class, Type names */
+  pre code .hljs-class,
+  pre code .hljs-type,
+  pre code .class,
+  pre code .type {
+    color: #d2a8ff;
+  }
+
+  /* Regex */
+  pre code .hljs-regexp,
+  pre code .token.regex {
+    color: #ffa657;
+  }
+
+  /* Deleted */
+  pre code .hljs-deletion,
+  pre code .token.deleted {
+    color: #ffa198;
+  }
+
+  /* Important, Bold */
+  pre code .token.important,
+  pre code .token.bold {
+    font-weight: bold;
+  }
+
+  /* Italic */
+  pre code .token.italic {
+    font-style: italic;
+  }
+
+  /* JSX specific */
+  pre code .token.tag .token.tag {
+    color: #7ee787;
+  }
+
+  pre code .token.tag .token.punctuation {
+    color: #8b949e;
+  }
+
+  pre code .token.tag .token.attr-name {
+    color: #79c0ff;
+  }
+
+  pre code .token.tag .token.attr-value {
+    color: #a5d6ff;
+  }
+
+  /* ======================
+     Language label
+  ====================== */
+  pre[data-language]::before {
+    content: attr(data-language);
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8b949e;
+    opacity: 0.7;
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      sans-serif;
+    font-weight: 500;
+  }
+
+  /* ======================
+     Scrollbar
+  ====================== */
+  pre::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+
+  pre::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  pre::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 10px;
+    border: 2px solid #0d1117;
+  }
+
+  pre::-webkit-scrollbar-thumb:hover {
+    background: #484f58;
+  }
+
+  /* Selection */
+  pre ::selection {
+    background: rgba(56, 139, 253, 0.3);
+  }
+
+  /* ======================
+     Blockquotes
+  ====================== */
+  blockquote {
+    margin: 1.75rem 0;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid var(--color-primary);
+    background-color: var(--color-muted);
+    color: var(--color-muted-foreground);
+    font-style: italic;
+  }
+
+  blockquote p {
+    margin: 0.5rem 0;
+  }
+
+  /* ======================
+     Horizontal rule
+  ====================== */
+  hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 3rem 0;
+  }
+
+  /* ======================
+     Images
+  ====================== */
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+  }
+
+  /* ======================
+     Tables
+  ====================== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.75rem 0;
+    font-size: 0.9rem;
+  }
+
+  th,
+  td {
+    border: 1px solid var(--color-border);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+  }
+
+  th {
+    background-color: var(--color-muted);
+    font-weight: 600;
+  }
+
+  /* ======================
+     Selection
+  ====================== */
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+
+  /* ======================
+     Inline code in text
+  ====================== */
+  p code,
+  li code,
+  td code,
+  blockquote code,
+  h1 code,
+  h2 code,
+  h3 code,
+  h4 code,
+  h5 code,
+  h6 code {
+    background-color: rgba(244, 114, 182, 0.1);
+    color: #f472b6;
+    padding: 0.15em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    border: 1px solid rgba(244, 114, 182, 0.2);
+    font-weight: 500;
+  }
+}

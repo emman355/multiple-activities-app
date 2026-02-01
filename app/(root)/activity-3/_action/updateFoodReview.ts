@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { getAuthSession } from "@/lib/auth/session";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { getAuthSession } from '@/lib/auth/session';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export async function updateFoodReview({
   id,
@@ -22,22 +22,22 @@ export async function updateFoodReview({
     const session = await getAuthSession();
 
     const formData = new FormData();
-    formData.append("photoName", photoName);
-    formData.append("location", location);
-    formData.append("rating", String(rating));
-    formData.append("review", review);
+    formData.append('photoName', photoName);
+    formData.append('location', location);
+    formData.append('rating', String(rating));
+    formData.append('review', review);
 
     // only append file if provided
     if (file) {
-      formData.append("file", file);
+      formData.append('file', file);
     }
 
     const backendRes = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/food-review/reviews/${id}`,
       {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          Authorization: `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${session?.access_token}`,
         },
         body: formData,
       }
@@ -51,15 +51,15 @@ export async function updateFoodReview({
     const updated = await backendRes.json();
 
     // ✅ revalidate both path and tag
-    revalidateTag("foodReview", "max");
-    revalidatePath("/activity-3");
+    revalidateTag('foodReview', 'max');
+    revalidatePath('/activity-3');
 
     return updated;
   } catch (err) {
     if (err instanceof Error) {
       throw err;
     } else {
-      throw new Error("Unknown error occurred while updating review");
+      throw new Error('Unknown error occurred while updating review');
     }
   }
 }
